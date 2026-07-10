@@ -7,6 +7,7 @@ import '../../core/data/dummy_data.dart';
 import '../../core/models/comparison_cluster.dart';
 import '../../core/services/voice_assistant_service.dart';
 import '../../core/state/accessibility_settings.dart';
+import '../../core/utils/category_style.dart';
 import '../../widgets/big_action_button.dart';
 import 'compare_detail_page.dart';
 
@@ -17,40 +18,108 @@ class ComparePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final clusters = dummyClusters;
 
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
+    return ListView.separated(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
       itemCount: clusters.length,
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final cluster = clusters[index];
-        return Card(
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          child: InkWell(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => CompareDetailPage(cluster: cluster),
-                ),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    cluster.category,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(cluster.oneLiner),
-                  const SizedBox(height: 8),
-                  Text('Sources: ${cluster.sources.join(', ')}'),
-                ],
+        return ClusterCard(
+          cluster: cluster,
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => CompareDetailPage(cluster: cluster),
               ),
-            ),
-          ),
+            );
+          },
         );
       },
+    );
+  }
+}
+
+class ClusterCard extends StatelessWidget {
+  const ClusterCard({super.key, required this.cluster, required this.onTap});
+
+  final ComparisonCluster cluster;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final style = categoryStyleFor(cluster.category);
+
+    return Card(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: style.color.withValues(alpha: 0.14),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(style.icon, size: 15, color: style.color),
+                        const SizedBox(width: 6),
+                        Text(
+                          cluster.category,
+                          style: Theme.of(context).textTheme.labelMedium
+                              ?.copyWith(
+                                color: style.color,
+                                fontWeight: FontWeight.w700,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                  Icon(Icons.chevron_right, color: scheme.onSurfaceVariant),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Text(
+                cluster.oneLiner,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(
+                    Icons.source_outlined,
+                    size: 15,
+                    color: scheme.onSurfaceVariant,
+                  ),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      cluster.sources.join(' · '),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: scheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -236,35 +305,32 @@ class _VoiceComparePageState extends State<VoiceComparePage> {
       return const Center(child: Text('अहिले तुलना उपलब्ध छैन।'));
     }
 
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        BigActionButton(
-          icon: Icons.mic,
-          title: 'तुलना विषय बोल्नुहोस्',
-          subtitle: 'खेलकुद, व्यवसाय, स्वास्थ्य, राजनीति… वा “पछाडि”',
-          onPressed: voice.isListening ? null : _promptForCategory,
-        ),
-        const SizedBox(height: 16),
-        Text('तुलना', style: Theme.of(context).textTheme.titleLarge),
-        const SizedBox(height: 8),
-        ..._clusters.map(
-          (c) => Card(
-            child: ListTile(
-              title: Text(c.category),
-              subtitle: Text(c.oneLiner),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => CompareDetailPage(cluster: c),
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-      ],
+    return ListView.separated(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+      itemCount: _clusters.length + 2,
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return BigActionButton(
+            icon: Icons.mic,
+            title: 'तुलना विषय बोल्नुहोस्',
+            subtitle: 'खेलकुद, व्यवसाय, स्वास्थ्य, राजनीति… वा “पछाडि”',
+            onPressed: voice.isListening ? null : _promptForCategory,
+          );
+        }
+        if (index == 1) {
+          return Text('तुलना', style: Theme.of(context).textTheme.titleLarge);
+        }
+        final c = _clusters[index - 2];
+        return ClusterCard(
+          cluster: c,
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => CompareDetailPage(cluster: c)),
+            );
+          },
+        );
+      },
     );
   }
 }

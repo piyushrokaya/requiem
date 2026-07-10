@@ -17,28 +17,102 @@ class NewsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final articles = dummyArticles;
 
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        Text('शीर्ष समाचार', style: Theme.of(context).textTheme.titleLarge),
-        const SizedBox(height: 8),
-        ...articles.map(
-          (a) => Card(
-            child: ListTile(
-              title: Text(a.title),
-              subtitle: Text('${a.source} • ${_relativeTime(a.publishedAt)}'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => ArticleDetailPage(article: a),
-                  ),
-                );
-              },
-            ),
+    return ListView.separated(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+      itemCount: articles.length + 1,
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return Text(
+            'शीर्ष समाचार',
+            style: Theme.of(context).textTheme.titleLarge,
+          );
+        }
+        final a = articles[index - 1];
+        return ArticleCard(
+          article: a,
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => ArticleDetailPage(article: a)),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class ArticleCard extends StatelessWidget {
+  const ArticleCard({super.key, required this.article, required this.onTap});
+
+  final NewsArticle article;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
+    return Card(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: scheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Icon(
+                  Icons.newspaper,
+                  color: scheme.onPrimaryContainer,
+                  size: 22,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      article.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        Text(
+                          article.source,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: scheme.primary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                        Text(
+                          '  •  ${_relativeTime(article.publishedAt)}',
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(color: scheme.onSurfaceVariant),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 4),
+              Icon(Icons.chevron_right, color: scheme.onSurfaceVariant),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 
@@ -289,42 +363,35 @@ class _VoiceNewsPageState extends State<VoiceNewsPage> {
       return const Center(child: Text('अहिले समाचार उपलब्ध छैन।'));
     }
 
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        BigActionButton(
-          icon: Icons.mic,
-          title: 'समाचार नम्बर बोल्नुहोस्',
-          subtitle: 'उदाहरण: १, २, ३… वा “पछाडि”',
-          onPressed: voice.isListening ? null : _promptForNewsNumber,
-        ),
-        const SizedBox(height: 16),
-        Text('शीर्ष समाचार', style: Theme.of(context).textTheme.titleLarge),
-        const SizedBox(height: 8),
-        ..._articles.map(
-          (a) => Card(
-            child: ListTile(
-              title: Text(a.title),
-              subtitle: Text('${a.source} • ${_relativeTime(a.publishedAt)}'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => ArticleDetailPage(article: a),
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-      ],
+    return ListView.separated(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+      itemCount: _articles.length + 2,
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return BigActionButton(
+            icon: Icons.mic,
+            title: 'समाचार नम्बर बोल्नुहोस्',
+            subtitle: 'उदाहरण: १, २, ३… वा “पछाडि”',
+            onPressed: voice.isListening ? null : _promptForNewsNumber,
+          );
+        }
+        if (index == 1) {
+          return Text(
+            'शीर्ष समाचार',
+            style: Theme.of(context).textTheme.titleLarge,
+          );
+        }
+        final a = _articles[index - 2];
+        return ArticleCard(
+          article: a,
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => ArticleDetailPage(article: a)),
+            );
+          },
+        );
+      },
     );
-  }
-
-  String _relativeTime(DateTime dt) {
-    final diff = DateTime.now().difference(dt);
-    if (diff.inMinutes < 60) return '${diff.inMinutes} मिनेट अघि';
-    if (diff.inHours < 24) return '${diff.inHours} घण्टा अघि';
-    return '${diff.inDays} दिन अघि';
   }
 }

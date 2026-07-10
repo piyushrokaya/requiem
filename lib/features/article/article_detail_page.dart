@@ -138,25 +138,71 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
   @override
   Widget build(BuildContext context) {
     final a = widget.article;
+    final scheme = Theme.of(context).colorScheme;
     final bodyText = (a.fullText ?? '').trim().isNotEmpty
         ? a.fullText!
         : a.summary;
 
     return Scaffold(
-      appBar: AppBar(title: Text(a.title)),
+      appBar: AppBar(title: const Text('समाचार')),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
         children: [
-          Text(a.source, style: Theme.of(context).textTheme.titleMedium),
-          const SizedBox(height: 8),
+          Text(a.title, style: Theme.of(context).textTheme.headlineSmall),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
+                decoration: BoxDecoration(
+                  color: scheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  a.source,
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: scheme.onPrimaryContainer,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Icon(
+                Icons.schedule,
+                size: 15,
+                color: scheme.onSurfaceVariant,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                _relativeTime(a.publishedAt),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
           Card(
             child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(bodyText),
+              padding: const EdgeInsets.all(18),
+              child: Text(
+                bodyText,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  String _relativeTime(DateTime dt) {
+    final diff = DateTime.now().difference(dt);
+    if (diff.inMinutes < 60) return '${diff.inMinutes} मिनेट अघि';
+    if (diff.inHours < 24) return '${diff.inHours} घण्टा अघि';
+    return '${diff.inDays} दिन अघि';
   }
 }

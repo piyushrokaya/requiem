@@ -115,15 +115,18 @@ class _AppShellState extends State<AppShell> {
               onDestinationSelected: (value) => setState(() => _index = value),
               destinations: const [
                 NavigationDestination(
-                  icon: Icon(Icons.newspaper),
+                  icon: Icon(Icons.newspaper_outlined),
+                  selectedIcon: Icon(Icons.newspaper),
                   label: 'समाचार',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.compare_arrows),
+                  icon: Icon(Icons.compare_arrows_outlined),
+                  selectedIcon: Icon(Icons.compare_arrows),
                   label: 'तुलना',
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.chat_bubble_outline),
+                  selectedIcon: Icon(Icons.chat_bubble),
                   label: 'सोधपुछ',
                 ),
               ],

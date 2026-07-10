@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../core/models/comparison_cluster.dart';
 import '../../core/services/voice_assistant_service.dart';
 import '../../core/state/accessibility_settings.dart';
+import '../../core/utils/category_style.dart';
 
 class CompareDetailPage extends StatefulWidget {
   const CompareDetailPage({
@@ -145,53 +146,133 @@ class _CompareDetailPageState extends State<CompareDetailPage> {
   @override
   Widget build(BuildContext context) {
     final cluster = widget.cluster;
+    final scheme = Theme.of(context).colorScheme;
+    final style = categoryStyleFor(cluster.category);
+
     return Scaffold(
-      appBar: AppBar(title: Text(cluster.category)),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: ListView(
-          children: [
-            Text(
-              cluster.oneLiner,
-              style: Theme.of(context).textTheme.titleMedium,
+      appBar: AppBar(title: const Text('तुलना')),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
+                decoration: BoxDecoration(
+                  color: style.color.withValues(alpha: 0.14),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(style.icon, size: 15, color: style.color),
+                    const SizedBox(width: 6),
+                    Text(
+                      cluster.category,
+                      style: Theme.of(context).textTheme.labelMedium
+                          ?.copyWith(
+                            color: style.color,
+                            fontWeight: FontWeight.w700,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            cluster.oneLiner,
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Icon(
+                Icons.source_outlined,
+                size: 15,
+                color: scheme.onSurfaceVariant,
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  cluster.sources.join(' · '),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          if (cluster.shortSummary.isNotEmpty)
+            _Section(
+              icon: Icons.summarize_outlined,
+              title: 'सारांश',
+              body: cluster.shortSummary,
             ),
-            const SizedBox(height: 12),
-            if (cluster.shortSummary.isNotEmpty) ...[
-              Text(
-                'Short Summary:',
-                style: Theme.of(context).textTheme.titleSmall,
+          if (cluster.keyPoints.isNotEmpty)
+            _Section(
+              icon: Icons.checklist_outlined,
+              title: 'मुख्य बुँदाहरू',
+              body: cluster.keyPoints,
+            ),
+          if (cluster.coverageBreakdown.isNotEmpty)
+            _Section(
+              icon: Icons.pie_chart_outline,
+              title: 'कभरेज',
+              body: cluster.coverageBreakdown,
+            ),
+          if (cluster.missingInfo.isNotEmpty)
+            _Section(
+              icon: Icons.info_outline,
+              title: 'छुटेका जानकारी',
+              body: cluster.missingInfo,
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Section extends StatelessWidget {
+  const _Section({required this.icon, required this.title, required this.body});
+
+  final IconData icon;
+  final String title;
+  final String body;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(icon, size: 18, color: scheme.primary),
+                  const SizedBox(width: 8),
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 4),
-              Text(cluster.shortSummary),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
+              Text(body, style: Theme.of(context).textTheme.bodyMedium),
             ],
-            if (cluster.keyPoints.isNotEmpty) ...[
-              Text(
-                'Key Points:',
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              const SizedBox(height: 4),
-              Text(cluster.keyPoints),
-              const SizedBox(height: 12),
-            ],
-            if (cluster.coverageBreakdown.isNotEmpty) ...[
-              Text(
-                'Coverage Breakdown:',
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              const SizedBox(height: 4),
-              Text(cluster.coverageBreakdown),
-              const SizedBox(height: 12),
-            ],
-            if (cluster.missingInfo.isNotEmpty) ...[
-              Text(
-                'Missing Info:',
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              const SizedBox(height: 4),
-              Text(cluster.missingInfo),
-            ],
-          ],
+          ),
         ),
       ),
     );

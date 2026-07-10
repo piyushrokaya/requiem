@@ -96,48 +96,89 @@ class _ModeSelectionPageState extends State<ModeSelectionPage> {
   @override
   Widget build(BuildContext context) {
     final voice = context.watch<VoiceAssistantService>();
+    final scheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('प्रयोग मोड छनोट')),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          const Text(
-            'कृपया आफ्नो प्रयोग मोड छनोट गर्नुहोस्:',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+      body: SafeArea(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 480),
+            child: ListView(
+              padding: const EdgeInsets.all(24),
+              shrinkWrap: true,
+              children: [
+                const SizedBox(height: 24),
+                Container(
+                  width: 84,
+                  height: 84,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: scheme.primaryContainer,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.newspaper,
+                    size: 40,
+                    color: scheme.onPrimaryContainer,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'सङ्क्षेप',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'कृपया आफ्नो प्रयोग मोड छनोट गर्नुहोस्',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  voice.isListening
+                      ? 'सुन्दैछ... कृपया बोल्नुहोस्।'
+                      : 'माइक अनुमति दिनुहोस् र “आवाज मोड” वा “सामान्य मोड” भन्नुहोस्।',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
+                const SizedBox(height: 28),
+                BigActionButton(
+                  icon: Icons.record_voice_over,
+                  title: 'आवाज मोड (Voice Mode)',
+                  subtitle: 'आवाजको माध्यमबाट मात्र एप चलाउने',
+                  onPressed: () {
+                    context.read<AccessibilitySettings>().setAutoSpeak(true);
+                    context.read<InteractionModeController>().choose(
+                      InteractionMode.voiceOnly,
+                    );
+                  },
+                ),
+                const SizedBox(height: 12),
+                BigActionButton(
+                  icon: Icons.text_fields,
+                  title: 'सामान्य मोड (Normal Mode)',
+                  subtitle: 'टेक्स्ट र टच प्रयोग गरी एप चलाउने',
+                  onPressed: () {
+                    unawaited(
+                      context.read<VoiceAssistantService>().stopSpeaking(),
+                    );
+                    context.read<AccessibilitySettings>().setAutoSpeak(false);
+                    context.read<InteractionModeController>().choose(
+                      InteractionMode.normal,
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 8),
-          Text(
-            voice.isListening
-                ? 'सुन्दैछ... कृपया बोल्नुहोस्।'
-                : 'माइक अनुमति दिनुहोस् र “आवाज मोड” वा “सामान्य मोड” भन्नुहोस्।',
-          ),
-          const SizedBox(height: 16),
-          BigActionButton(
-            icon: Icons.record_voice_over,
-            title: 'आवाज मोड (Voice Mode)',
-            subtitle: 'आवाजको माध्यमबाट मात्र एप चलाउने',
-            onPressed: () {
-              context.read<AccessibilitySettings>().setAutoSpeak(true);
-              context.read<InteractionModeController>().choose(
-                InteractionMode.voiceOnly,
-              );
-            },
-          ),
-          const SizedBox(height: 12),
-          BigActionButton(
-            icon: Icons.text_fields,
-            title: 'सामान्य मोड (Normal Mode)',
-            subtitle: 'टेक्स्ट र टच प्रयोग गरी एप चलाउने',
-            onPressed: () {
-              unawaited(context.read<VoiceAssistantService>().stopSpeaking());
-              context.read<AccessibilitySettings>().setAutoSpeak(false);
-              context.read<InteractionModeController>().choose(
-                InteractionMode.normal,
-              );
-            },
-          ),
-        ],
+        ),
       ),
     );
   }

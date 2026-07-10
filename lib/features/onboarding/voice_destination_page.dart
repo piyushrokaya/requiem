@@ -113,25 +113,50 @@ class _VoiceDestinationPageState extends State<VoiceDestinationPage> {
   @override
   Widget build(BuildContext context) {
     final voice = context.watch<VoiceAssistantService>();
+    final scheme = Theme.of(context).colorScheme;
 
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
       children: [
         Text(
-          'कृपया छान्नुहोस्:',
-          style: Theme.of(context).textTheme.titleLarge,
+          'कृपया छान्नुहोस्',
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+            fontWeight: FontWeight.w700,
+          ),
         ),
         const SizedBox(height: 8),
-        Text(
-          voice.isListening
-              ? 'सुन्दैछ... कृपया “समाचार” वा “तुलना” भन्नुहोस्।'
-              : '“समाचार” वा “तुलना” बोल्नुहोस्, वा तलबाट ट्याप गर्नुहोस्।',
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              voice.isListening ? Icons.mic : Icons.info_outline,
+              size: 18,
+              color: voice.isListening ? scheme.primary : scheme.onSurfaceVariant,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                voice.isListening
+                    ? 'सुन्दैछ... कृपया “समाचार” वा “तुलना” भन्नुहोस्।'
+                    : '“समाचार” वा “तुलना” बोल्नुहोस्, वा तलबाट ट्याप गर्नुहोस्।',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: scheme.onSurfaceVariant,
+                ),
+              ),
+            ),
+          ],
         ),
         if ((voice.lastHeard ?? '').trim().isNotEmpty) ...[
           const SizedBox(height: 8),
-          Text('सुनेको: ${voice.lastHeard}'),
+          Text(
+            'सुनेको: ${voice.lastHeard}',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: scheme.onSurfaceVariant,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
         ],
-        const SizedBox(height: 16),
+        const SizedBox(height: 20),
         BigActionButton(
           icon: Icons.newspaper,
           title: 'समाचार',

@@ -30,6 +30,8 @@ class MyApp extends StatelessWidget {
             title: 'Sanksep',
             debugShowCheckedModeBanner: false,
             theme: buildAppTheme(),
+            darkTheme: buildAppDarkTheme(),
+            themeMode: ThemeMode.system,
             builder: (context, child) {
               final mediaQuery = MediaQuery.of(context);
               final scaler = settings.largeText
