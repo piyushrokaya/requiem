@@ -8,6 +8,7 @@ import 'core/services/news_repository.dart';
 import 'core/services/voice_assistant_service.dart';
 import 'core/state/accessibility_settings.dart';
 import 'core/state/interaction_mode.dart';
+import 'features/onboarding/dev_server_setup_page.dart';
 import 'features/onboarding/mode_selection_page.dart';
 
 void main() {
@@ -15,8 +16,15 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _devServerConfiguredThisRun = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,12 +54,18 @@ class MyApp extends StatelessWidget {
                 child: child ?? const SizedBox.shrink(),
               );
             },
-            home: Consumer<InteractionModeController>(
-              builder: (context, mode, _) {
-                if (!mode.isChosen) return const ModeSelectionPage();
-                return const AppShell();
-              },
-            ),
+            home: _devServerConfiguredThisRun
+                ? Consumer<InteractionModeController>(
+                    builder: (context, mode, _) {
+                      if (!mode.isChosen) return const ModeSelectionPage();
+                      return const AppShell();
+                    },
+                  )
+                : DevServerSetupPage(
+                    onConfigured: () {
+                      setState(() => _devServerConfiguredThisRun = true);
+                    },
+                  ),
           );
         },
       ),

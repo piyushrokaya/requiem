@@ -44,6 +44,9 @@ dependencies:
   # Local storage (server URL override)
   shared_preferences: ^2.3.2
 
+  # QR scanning (scan backend server URL)
+  mobile_scanner: ^5.2.3
+
   # Voice features
   speech_to_text: ^7.3.0
   flutter_tts: ^4.2.2

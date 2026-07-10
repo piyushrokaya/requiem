@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/config/api_config.dart';
 import '../../core/services/api_endpoint_store.dart';
+import 'dev_server_scanner_page.dart';
 
 /// Lets a developer point the app at a different backend — a LAN IP when
 /// testing on a physical device, or a tunnel URL — without rebuilding.
@@ -68,6 +69,18 @@ class _SettingsPageState extends State<SettingsPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Server reset to default: ${ApiConfig.baseUrl}')),
     );
+  }
+
+  Future<void> _scan() async {
+    final result = await Navigator.of(
+      context,
+    ).push<String>(MaterialPageRoute(builder: (_) => const DevServerScannerPage()));
+    if (!mounted) return;
+    if (result == null) return;
+    setState(() => _resolvedUrl = ApiEndpointStore.serverBaseUrl());
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('Server set: $result')));
   }
 
   @override
@@ -156,6 +169,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 12),
+          FilledButton.icon(
+            onPressed: _saving ? null : _scan,
+            icon: const Icon(Icons.qr_code_scanner),
+            label: const Text('Scan server URL'),
           ),
         ],
       ),

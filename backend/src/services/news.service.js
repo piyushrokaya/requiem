@@ -3,6 +3,7 @@ const path = require("path");
 const crypto = require("crypto");
 const csv = require("csv-parser");
 const { pool, isConfigured } = require("../config/pg");
+const { runWithRetry } = require("../utils/dbRetry");
 
 // News is served from Postgres (Neon) when DATABASE_URL is configured, and
 // falls back to reading the CSV directly otherwise. Both paths return the exact
@@ -94,17 +95,21 @@ const getNewsFromDb = async ({ page = 1, limit = 10 }) => {
   const safeLimit = Number(limit) > 0 ? Number(limit) : 10;
   const offset = (safePage - 1) * safeLimit;
 
-  const totalRes = await pool.query("SELECT COUNT(*)::int AS total FROM articles");
+  const totalRes = await runWithRetry(() =>
+    pool.query("SELECT COUNT(*)::int AS total FROM articles")
+  );
   const total = totalRes.rows[0].total;
   const totalPages = Math.max(1, Math.ceil(total / safeLimit));
 
-  const { rows } = await pool.query(
-    `SELECT id, source, title, description, link, content, category,
-            COALESCE(published_at, first_seen_at) AS created_at
-       FROM articles
-      ORDER BY published_at DESC NULLS LAST
-      LIMIT $1 OFFSET $2`,
-    [safeLimit, offset]
+  const { rows } = await runWithRetry(() =>
+    pool.query(
+      `SELECT id, source, title, description, link, content, category,
+              COALESCE(published_at, first_seen_at) AS created_at
+         FROM articles
+        ORDER BY published_at DESC NULLS LAST
+        LIMIT $1 OFFSET $2`,
+      [safeLimit, offset]
+    )
   );
 
   const data = rows.map((r) => ({

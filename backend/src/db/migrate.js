@@ -1,28 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 const { pool, isConfigured } = require("../config/pg");
+const { runWithRetry } = require("../utils/dbRetry");
 
 const SCHEMA_PATH = path.join(__dirname, "schema.sql");
-
-// Neon scales the compute to zero when idle. The first query after that has to
-// wake it, and can fail/timeout once before the compute is ready. Retrying a
-// few times with backoff rides through the cold start.
-const runWithRetry = async (fn, retries = 5, baseDelayMs = 600) => {
-  let lastErr;
-  for (let attempt = 1; attempt <= retries; attempt++) {
-    try {
-      return await fn();
-    } catch (err) {
-      lastErr = err;
-      const msg = (err && (err.message || err.code)) || "unknown error";
-      console.warn(
-        `[migrate] attempt ${attempt}/${retries} failed (${msg}); retrying...`
-      );
-      await new Promise((r) => setTimeout(r, baseDelayMs * attempt));
-    }
-  }
-  throw lastErr;
-};
 
 // Ensures all tables/indexes exist. Idempotent — safe on every server start.
 const migrate = async () => {
@@ -31,7 +12,7 @@ const migrate = async () => {
     return;
   }
   const sql = fs.readFileSync(SCHEMA_PATH, "utf8");
-  await runWithRetry(() => pool.query(sql));
+  await runWithRetry(() => pool.query(sql), 5, 600);
   console.log("[migrate] schema ensured");
 };
 

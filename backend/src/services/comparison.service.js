@@ -1,19 +1,22 @@
 const fs = require("fs");
 const path = require("path");
 const { pool, isConfigured } = require("../config/pg");
+const { runWithRetry } = require("../utils/dbRetry");
 
 const CLUSTERS_PATH = path.join(__dirname, "../../data/clusters.json");
 
 // Read a page of clusters from Postgres.
 const getClustersFromDb = async ({ page, limit }) => {
   const offset = (page - 1) * limit;
-  const { rows } = await pool.query(
-    `SELECT cluster_id, sources, titles, category, one_liner,
-            short_summary, key_points, missing_info, coverage_breakdown
-       FROM clusters
-      ORDER BY cluster_id ASC
-      LIMIT $1 OFFSET $2`,
-    [limit, offset]
+  const { rows } = await runWithRetry(() =>
+    pool.query(
+      `SELECT cluster_id, sources, titles, category, one_liner,
+              short_summary, key_points, missing_info, coverage_breakdown
+         FROM clusters
+        ORDER BY cluster_id ASC
+        LIMIT $1 OFFSET $2`,
+      [limit, offset]
+    )
   );
 
   return rows.map((r) => ({
