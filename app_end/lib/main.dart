@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 
 import 'app/app_shell.dart';
 import 'app/theme.dart';
+import 'core/services/compare_repository.dart';
+import 'core/services/news_repository.dart';
 import 'core/services/voice_assistant_service.dart';
 import 'core/state/accessibility_settings.dart';
 import 'core/state/interaction_mode.dart';
@@ -23,6 +25,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AccessibilitySettings()),
         ChangeNotifierProvider(create: (_) => InteractionModeController()),
         ChangeNotifierProvider(create: (_) => VoiceAssistantService()),
+        Provider(create: (_) => NewsRepository()),
+        Provider(create: (_) => CompareRepository()),
       ],
       child: Consumer<AccessibilitySettings>(
         builder: (context, settings, _) {

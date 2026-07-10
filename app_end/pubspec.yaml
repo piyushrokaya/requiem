@@ -38,6 +38,12 @@ dependencies:
   # State management
   provider: ^6.1.2
 
+  # Networking
+  http: ^1.2.2
+
+  # Local storage (server URL override)
+  shared_preferences: ^2.3.2
+
   # Voice features
   speech_to_text: ^7.3.0
   flutter_tts: ^4.2.2

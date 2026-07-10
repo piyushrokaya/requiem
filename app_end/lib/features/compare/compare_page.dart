@@ -3,34 +3,71 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/data/dummy_data.dart';
 import '../../core/models/comparison_cluster.dart';
+import '../../core/services/compare_repository.dart';
 import '../../core/services/voice_assistant_service.dart';
 import '../../core/state/accessibility_settings.dart';
 import '../../core/utils/category_style.dart';
+import '../../widgets/async_error_view.dart';
 import '../../widgets/big_action_button.dart';
 import 'compare_detail_page.dart';
 
-class ComparePage extends StatelessWidget {
+class ComparePage extends StatefulWidget {
   const ComparePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final clusters = dummyClusters;
+  State<ComparePage> createState() => _ComparePageState();
+}
 
-    return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-      itemCount: clusters.length,
-      separatorBuilder: (_, _) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        final cluster = clusters[index];
-        return ClusterCard(
-          cluster: cluster,
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => CompareDetailPage(cluster: cluster),
-              ),
+class _ComparePageState extends State<ComparePage> {
+  late Future<List<ComparisonCluster>> _future;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  void _load() {
+    _future = context.read<CompareRepository>().fetchClusters();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<ComparisonCluster>>(
+      future: _future,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return AsyncErrorView(
+            error: snapshot.error!,
+            onRetry: () => setState(_load),
+          );
+        }
+
+        final clusters = snapshot.data ?? [];
+        if (clusters.isEmpty) {
+          return const Center(child: Text('अहिले तुलना उपलब्ध छैन।'));
+        }
+
+        return ListView.separated(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+          itemCount: clusters.length,
+          separatorBuilder: (_, _) => const SizedBox(height: 12),
+          itemBuilder: (context, index) {
+            final cluster = clusters[index];
+            return ClusterCard(
+              cluster: cluster,
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => CompareDetailPage(cluster: cluster),
+                  ),
+                );
+              },
             );
           },
         );
@@ -134,7 +171,8 @@ class VoiceComparePage extends StatefulWidget {
 }
 
 class _VoiceComparePageState extends State<VoiceComparePage> {
-  final List<ComparisonCluster> _clusters = dummyClusters;
+  late Future<List<ComparisonCluster>> _future;
+  List<ComparisonCluster> _clusters = [];
 
   bool _started = false;
   bool _busy = false;
@@ -143,19 +181,34 @@ class _VoiceComparePageState extends State<VoiceComparePage> {
   AccessibilitySettings? _settings;
 
   @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  void _load() {
+    _future = context.read<CompareRepository>().fetchClusters();
+
+    // Start the voice flow as soon as clusters are available, rather than
+    // waiting on build timing (which could miss the first prompt).
+    unawaited(
+      _future.then((items) {
+        if (!mounted) return;
+        _clusters = items;
+        if (_clusters.isEmpty || _started) return;
+        _started = true;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) unawaited(_startVoiceFlow());
+        });
+      }),
+    );
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _voice ??= context.read<VoiceAssistantService>();
     _settings ??= context.read<AccessibilitySettings>();
-
-    if (!_started && _clusters.isNotEmpty) {
-      _started = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          unawaited(_startVoiceFlow());
-        }
-      });
-    }
   }
 
   @override
@@ -301,32 +354,59 @@ class _VoiceComparePageState extends State<VoiceComparePage> {
   Widget build(BuildContext context) {
     final voice = context.watch<VoiceAssistantService>();
 
-    if (_clusters.isEmpty) {
-      return const Center(child: Text('अहिले तुलना उपलब्ध छैन।'));
-    }
+    return FutureBuilder<List<ComparisonCluster>>(
+      future: _future,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-    return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-      itemCount: _clusters.length + 2,
-      separatorBuilder: (_, _) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          return BigActionButton(
-            icon: Icons.mic,
-            title: 'तुलना विषय बोल्नुहोस्',
-            subtitle: 'खेलकुद, व्यवसाय, स्वास्थ्य, राजनीति… वा “पछाडि”',
-            onPressed: voice.isListening ? null : _promptForCategory,
+        if (snapshot.hasError) {
+          return AsyncErrorView(
+            error: snapshot.error!,
+            onRetry: () => setState(() {
+              _started = false;
+              _load();
+            }),
           );
         }
-        if (index == 1) {
-          return Text('तुलना', style: Theme.of(context).textTheme.titleLarge);
+
+        _clusters = snapshot.data ?? [];
+        if (_clusters.isEmpty) {
+          return const Center(child: Text('अहिले तुलना उपलब्ध छैन।'));
         }
-        final c = _clusters[index - 2];
-        return ClusterCard(
-          cluster: c,
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => CompareDetailPage(cluster: c)),
+
+        // Voice flow is started from _load() when the future completes.
+
+        return ListView.separated(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+          itemCount: _clusters.length + 2,
+          separatorBuilder: (_, _) => const SizedBox(height: 12),
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return BigActionButton(
+                icon: Icons.mic,
+                title: 'तुलना विषय बोल्नुहोस्',
+                subtitle: 'खेलकुद, व्यवसाय, स्वास्थ्य, राजनीति… वा “पछाडि”',
+                onPressed: voice.isListening ? null : _promptForCategory,
+              );
+            }
+            if (index == 1) {
+              return Text(
+                'तुलना',
+                style: Theme.of(context).textTheme.titleLarge,
+              );
+            }
+            final c = _clusters[index - 2];
+            return ClusterCard(
+              cluster: c,
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => CompareDetailPage(cluster: c),
+                  ),
+                );
+              },
             );
           },
         );

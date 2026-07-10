@@ -3,37 +3,80 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/data/dummy_data.dart';
 import '../../core/models/news_article.dart';
+import '../../core/services/news_repository.dart';
 import '../../core/services/voice_assistant_service.dart';
 import '../../core/state/accessibility_settings.dart';
+import '../../widgets/async_error_view.dart';
 import '../../widgets/big_action_button.dart';
 import '../article/article_detail_page.dart';
 
-class NewsPage extends StatelessWidget {
+class NewsPage extends StatefulWidget {
   const NewsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final articles = dummyArticles;
+  State<NewsPage> createState() => _NewsPageState();
+}
 
-    return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-      itemCount: articles.length + 1,
-      separatorBuilder: (_, _) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          return Text(
-            'शीर्ष समाचार',
-            style: Theme.of(context).textTheme.titleLarge,
+class _NewsPageState extends State<NewsPage> {
+  static const int _maxNewsItems = 10;
+
+  late Future<List<NewsArticle>> _future;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  void _load() {
+    _future = context.read<NewsRepository>().getTopArticles(
+      limit: _maxNewsItems,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<NewsArticle>>(
+      future: _future,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return AsyncErrorView(
+            error: snapshot.error!,
+            onRetry: () => setState(_load),
           );
         }
-        final a = articles[index - 1];
-        return ArticleCard(
-          article: a,
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => ArticleDetailPage(article: a)),
+
+        final articles = (snapshot.data ?? []).take(_maxNewsItems).toList();
+        if (articles.isEmpty) {
+          return const Center(child: Text('अहिले समाचार उपलब्ध छैन।'));
+        }
+
+        return ListView.separated(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+          itemCount: articles.length + 1,
+          separatorBuilder: (_, _) => const SizedBox(height: 12),
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return Text(
+                'शीर्ष समाचार',
+                style: Theme.of(context).textTheme.titleLarge,
+              );
+            }
+            final a = articles[index - 1];
+            return ArticleCard(
+              article: a,
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => ArticleDetailPage(article: a),
+                  ),
+                );
+              },
             );
           },
         );
@@ -136,7 +179,8 @@ class VoiceNewsPage extends StatefulWidget {
 class _VoiceNewsPageState extends State<VoiceNewsPage> {
   static const int _maxNewsItems = 10;
 
-  final List<NewsArticle> _articles = dummyArticles.take(_maxNewsItems).toList();
+  late Future<List<NewsArticle>> _future;
+  List<NewsArticle> _articles = [];
 
   bool _started = false;
   bool _busy = false;
@@ -145,19 +189,36 @@ class _VoiceNewsPageState extends State<VoiceNewsPage> {
   AccessibilitySettings? _settings;
 
   @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  void _load() {
+    _future = context.read<NewsRepository>().getTopArticles(
+      limit: _maxNewsItems,
+    );
+
+    // Start the voice flow as soon as articles are available, rather than
+    // waiting on build timing (which could miss the first prompt).
+    unawaited(
+      _future.then((items) {
+        if (!mounted) return;
+        _articles = items.take(_maxNewsItems).toList();
+        if (_articles.isEmpty || _started) return;
+        _started = true;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) unawaited(_startVoiceFlow());
+        });
+      }),
+    );
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _voice ??= context.read<VoiceAssistantService>();
     _settings ??= context.read<AccessibilitySettings>();
-
-    if (!_started && _articles.isNotEmpty) {
-      _started = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          unawaited(_startVoiceFlow());
-        }
-      });
-    }
   }
 
   @override
@@ -359,35 +420,59 @@ class _VoiceNewsPageState extends State<VoiceNewsPage> {
   Widget build(BuildContext context) {
     final voice = context.watch<VoiceAssistantService>();
 
-    if (_articles.isEmpty) {
-      return const Center(child: Text('अहिले समाचार उपलब्ध छैन।'));
-    }
+    return FutureBuilder<List<NewsArticle>>(
+      future: _future,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-    return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-      itemCount: _articles.length + 2,
-      separatorBuilder: (_, _) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          return BigActionButton(
-            icon: Icons.mic,
-            title: 'समाचार नम्बर बोल्नुहोस्',
-            subtitle: 'उदाहरण: १, २, ३… वा “पछाडि”',
-            onPressed: voice.isListening ? null : _promptForNewsNumber,
+        if (snapshot.hasError) {
+          return AsyncErrorView(
+            error: snapshot.error!,
+            onRetry: () => setState(() {
+              _started = false;
+              _load();
+            }),
           );
         }
-        if (index == 1) {
-          return Text(
-            'शीर्ष समाचार',
-            style: Theme.of(context).textTheme.titleLarge,
-          );
+
+        _articles = (snapshot.data ?? []).take(_maxNewsItems).toList();
+        if (_articles.isEmpty) {
+          return const Center(child: Text('अहिले समाचार उपलब्ध छैन।'));
         }
-        final a = _articles[index - 2];
-        return ArticleCard(
-          article: a,
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => ArticleDetailPage(article: a)),
+
+        // Voice flow is started from initState when the future completes.
+
+        return ListView.separated(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+          itemCount: _articles.length + 2,
+          separatorBuilder: (_, _) => const SizedBox(height: 12),
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return BigActionButton(
+                icon: Icons.mic,
+                title: 'समाचार नम्बर बोल्नुहोस्',
+                subtitle: 'उदाहरण: १, २, ३… वा “पछाडि”',
+                onPressed: voice.isListening ? null : _promptForNewsNumber,
+              );
+            }
+            if (index == 1) {
+              return Text(
+                'शीर्ष समाचार',
+                style: Theme.of(context).textTheme.titleLarge,
+              );
+            }
+            final a = _articles[index - 2];
+            return ArticleCard(
+              article: a,
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => ArticleDetailPage(article: a),
+                  ),
+                );
+              },
             );
           },
         );

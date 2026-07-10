@@ -8,6 +8,7 @@ import '../features/ask/ask_page.dart';
 import '../features/compare/compare_page.dart';
 import '../features/news/news_page.dart';
 import '../features/onboarding/voice_destination_page.dart';
+import '../features/settings/settings_page.dart';
 
 class AppShell extends StatefulWidget {
   const AppShell({super.key});
@@ -79,6 +80,15 @@ class _AppShellState extends State<AppShell> {
                         settings: settings,
                         spoken: text,
                       ),
+                    );
+                  },
+                ),
+                IconButton(
+                  tooltip: 'Server settings',
+                  icon: const Icon(Icons.settings_outlined),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const SettingsPage()),
                     );
                   },
                 ),
