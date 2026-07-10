@@ -1,0 +1,94 @@
+# ═══════════════════════════════════════════════════════════════
+#  Root .gitignore for the requiem monorepo
+#  Covers: Flutter app (app_end/), Node backend (backend/),
+#  and the Python data pipeline (backend/data/).
+# ═══════════════════════════════════════════════════════════════
+
+# ── OS / Editor / Misc ─────────────────────────────────────────
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+Thumbs.db
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# ── Secrets / Environment ──────────────────────────────────────
+# Never commit real credentials (Neon DATABASE_URL, API keys, etc.).
+# The .env.example template IS committed as a reference.
+.env
+.env.*
+!.env.example
+
+# ═══════════════════════════════════════════════════════════════
+#  Flutter app  (app_end/)
+# ═══════════════════════════════════════════════════════════════
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+app_end/build/
+app_end/coverage/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+app_end/android/app/debug
+app_end/android/app/profile
+app_end/android/app/release
+
+# ═══════════════════════════════════════════════════════════════
+#  Node backend  (backend/)
+# ═══════════════════════════════════════════════════════════════
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm/
+
+# ngrok tunnel binary — large (~32 MB) and machine-specific
+ngrok.exe
+
+# Local scratch/trigger helpers
+backend/scripts/_*.js
+
+# ═══════════════════════════════════════════════════════════════
+#  Python data pipeline  (backend/data/)
+# ═══════════════════════════════════════════════════════════════
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# Generated pipeline outputs (recreated on every run)
+backend/data/all_articles_processed.csv
+backend/data/seen_urls.txt
+backend/data/clusters.json
