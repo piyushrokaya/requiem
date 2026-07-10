@@ -1,0 +1,9 @@
+requests==2.31.0
+python-dotenv==1.0.0
+
+# added from imports in data/ scripts
+feedparser
+pandas
+tqdm
+newspaper3k
+gemma3:4b LLM
