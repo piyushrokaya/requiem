@@ -1,24 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:my_app/core/state/accessibility_settings.dart';
+import 'package:my_app/core/state/interaction_mode.dart';
 import 'package:my_app/main.dart';
 
-Future<void> _chooseNormalMode(WidgetTester tester) async {
-  await tester.pumpWidget(const MyApp());
+Widget _buildApp() {
+  return MyApp(
+    accessibilitySettings: AccessibilitySettings(),
+    interactionMode: InteractionModeController(),
+  );
+}
+
+Future<void> _skipDevServerSetup(WidgetTester tester) async {
+  await tester.pumpWidget(_buildApp());
   await tester.pumpAndSettle();
+
+  final skipFinder = find.textContaining('छोड्नुहोस्');
+  expect(skipFinder, findsOneWidget);
+  await tester.tap(skipFinder);
+  await tester.pumpAndSettle();
+}
+
+Future<void> _chooseNormalMode(WidgetTester tester) async {
+  await _skipDevServerSetup(tester);
 
   expect(find.text('कृपया आफ्नो प्रयोग मोड छनोट गर्नुहोस्'), findsOneWidget);
 
   await tester.tap(find.text('सामान्य मोड (Normal Mode)'));
-  await tester.pump();
+  await tester.pumpAndSettle();
 }
 
 void main() {
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+  });
+
   testWidgets('Mode selection offers voice and normal mode', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const MyApp());
-    await tester.pumpAndSettle();
+    await _skipDevServerSetup(tester);
 
     expect(find.text('आवाज मोड (Voice Mode)'), findsOneWidget);
     expect(find.text('सामान्य मोड (Normal Mode)'), findsOneWidget);

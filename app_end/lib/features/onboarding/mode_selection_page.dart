@@ -64,10 +64,12 @@ class _ModeSelectionPageState extends State<ModeSelectionPage> {
         if (mode == InteractionMode.normal) {
           unawaited(voice.stopSpeaking());
         }
-        context.read<AccessibilitySettings>().setAutoSpeak(
-          mode == InteractionMode.voiceOnly,
+        unawaited(
+          context.read<AccessibilitySettings>().setAutoSpeak(
+            mode == InteractionMode.voiceOnly,
+          ),
         );
-        context.read<InteractionModeController>().choose(mode);
+        unawaited(context.read<InteractionModeController>().choose(mode));
       },
     );
 
@@ -154,9 +156,13 @@ class _ModeSelectionPageState extends State<ModeSelectionPage> {
                   title: 'आवाज मोड (Voice Mode)',
                   subtitle: 'आवाजको माध्यमबाट मात्र एप चलाउने',
                   onPressed: () {
-                    context.read<AccessibilitySettings>().setAutoSpeak(true);
-                    context.read<InteractionModeController>().choose(
-                      InteractionMode.voiceOnly,
+                    unawaited(
+                      context.read<AccessibilitySettings>().setAutoSpeak(true),
+                    );
+                    unawaited(
+                      context.read<InteractionModeController>().choose(
+                        InteractionMode.voiceOnly,
+                      ),
                     );
                   },
                 ),
@@ -169,9 +175,15 @@ class _ModeSelectionPageState extends State<ModeSelectionPage> {
                     unawaited(
                       context.read<VoiceAssistantService>().stopSpeaking(),
                     );
-                    context.read<AccessibilitySettings>().setAutoSpeak(false);
-                    context.read<InteractionModeController>().choose(
-                      InteractionMode.normal,
+                    unawaited(
+                      context.read<AccessibilitySettings>().setAutoSpeak(
+                        false,
+                      ),
+                    );
+                    unawaited(
+                      context.read<InteractionModeController>().choose(
+                        InteractionMode.normal,
+                      ),
                     );
                   },
                 ),

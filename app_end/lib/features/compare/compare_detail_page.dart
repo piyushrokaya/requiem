@@ -232,6 +232,12 @@ class _CompareDetailPageState extends State<CompareDetailPage> {
               title: 'छुटेका जानकारी',
               body: cluster.missingInfo,
             ),
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
+            onPressed: () => Navigator.of(context).maybePop(),
+            icon: const Icon(Icons.arrow_back),
+            label: const Text('पछाडि जानुहोस्'),
+          ),
         ],
       ),
     );

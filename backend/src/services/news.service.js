@@ -4,6 +4,7 @@ const crypto = require("crypto");
 const csv = require("csv-parser");
 const { pool, isConfigured } = require("../config/pg");
 const { runWithRetry } = require("../utils/dbRetry");
+const { stripHtml } = require("../utils/sanitizeText");
 
 // News is served from Postgres (Neon) when DATABASE_URL is configured, and
 // falls back to reading the CSV directly otherwise. Both paths return the exact
@@ -20,9 +21,9 @@ const parsePublishedDate = (published) => {
 const rowToApiArticle = (row, index) => {
   const link = (row.link || "").trim();
   const source = (row.source || "Unknown").replace(/^\uFEFF/, "").trim();
-  const title = (row.title || "").trim();
-  const cleanText = (row.clean_text || "").trim();
-  const rawDescription = (row.description || "").trim();
+  const title = stripHtml((row.title || "").trim());
+  const cleanText = stripHtml((row.clean_text || "").trim());
+  const rawDescription = stripHtml((row.description || "").trim());
   const description = rawDescription || cleanText;
   const category = (row.category || "").trim();
   // Provide full article content when available.
@@ -60,11 +61,16 @@ const readAllFromCsv = async () => {
   });
 };
 
-const getNewsFromCsv = async ({ page = 1, limit = 10 }) => {
+const getNewsFromCsv = async ({ page = 1, limit = 10, category }) => {
   const safePage = Number(page) > 0 ? Number(page) : 1;
   const safeLimit = Number(limit) > 0 ? Number(limit) : 10;
 
-  const rows = await readAllFromCsv();
+  let rows = await readAllFromCsv();
+
+  if (category) {
+    const wanted = category.trim().toLowerCase();
+    rows = rows.filter((r) => (r.category || "").trim().toLowerCase() === wanted);
+  }
 
   // Sort newest first using published timestamp.
   rows.sort((a, b) => {
@@ -90,13 +96,19 @@ const getNewsFromCsv = async ({ page = 1, limit = 10 }) => {
 };
 
 // Read a page of news from Postgres, newest first.
-const getNewsFromDb = async ({ page = 1, limit = 10 }) => {
+const getNewsFromDb = async ({ page = 1, limit = 10, category }) => {
   const safePage = Number(page) > 0 ? Number(page) : 1;
   const safeLimit = Number(limit) > 0 ? Number(limit) : 10;
   const offset = (safePage - 1) * safeLimit;
 
+  const whereClause = category ? "WHERE lower(category) = lower($1)" : "";
+  const categoryParams = category ? [category] : [];
+
   const totalRes = await runWithRetry(() =>
-    pool.query("SELECT COUNT(*)::int AS total FROM articles")
+    pool.query(
+      `SELECT COUNT(*)::int AS total FROM articles ${whereClause}`,
+      categoryParams
+    )
   );
   const total = totalRes.rows[0].total;
   const totalPages = Math.max(1, Math.ceil(total / safeLimit));
@@ -106,9 +118,10 @@ const getNewsFromDb = async ({ page = 1, limit = 10 }) => {
       `SELECT id, source, title, description, link, content, category,
               COALESCE(published_at, first_seen_at) AS created_at
          FROM articles
+        ${whereClause}
         ORDER BY published_at DESC NULLS LAST
-        LIMIT $1 OFFSET $2`,
-      [safeLimit, offset]
+        LIMIT $${categoryParams.length + 1} OFFSET $${categoryParams.length + 2}`,
+      [...categoryParams, safeLimit, offset]
     )
   );
 
@@ -141,8 +154,45 @@ const getNews = async (opts) => {
   return getNewsFromCsv(opts);
 };
 
+const getCategoriesFromDb = async () => {
+  const { rows } = await runWithRetry(() =>
+    pool.query(
+      `SELECT DISTINCT category FROM articles
+        WHERE category IS NOT NULL AND category <> ''
+        ORDER BY category ASC`
+    )
+  );
+  return rows.map((r) => r.category);
+};
+
+const getCategoriesFromCsv = async () => {
+  const rows = await readAllFromCsv();
+  const set = new Set();
+  for (const r of rows) {
+    const c = (r.category || "").trim();
+    if (c) set.add(c);
+  }
+  return [...set].sort();
+};
+
+// Distinct category values currently available, for filter UIs / voice prompts.
+const getCategories = async () => {
+  if (isConfigured()) {
+    try {
+      return await getCategoriesFromDb();
+    } catch (err) {
+      console.error(
+        "[news.service] DB category read failed, falling back to CSV:",
+        err.message
+      );
+    }
+  }
+  return getCategoriesFromCsv();
+};
+
 module.exports = {
   getNews,
   getNewsFromDb,
   getNewsFromCsv,
+  getCategories,
 };

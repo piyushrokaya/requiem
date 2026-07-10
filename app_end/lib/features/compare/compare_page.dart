@@ -380,10 +380,17 @@ class _VoiceComparePageState extends State<VoiceComparePage> {
 
         return ListView.separated(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-          itemCount: _clusters.length + 2,
+          itemCount: _clusters.length + 3,
           separatorBuilder: (_, _) => const SizedBox(height: 12),
           itemBuilder: (context, index) {
             if (index == 0) {
+              return OutlinedButton.icon(
+                onPressed: widget.onBackToMenu,
+                icon: const Icon(Icons.arrow_back),
+                label: const Text('पछाडि (मेनुमा फर्कनुहोस्)'),
+              );
+            }
+            if (index == 1) {
               return BigActionButton(
                 icon: Icons.mic,
                 title: 'तुलना विषय बोल्नुहोस्',
@@ -391,13 +398,13 @@ class _VoiceComparePageState extends State<VoiceComparePage> {
                 onPressed: voice.isListening ? null : _promptForCategory,
               );
             }
-            if (index == 1) {
+            if (index == 2) {
               return Text(
                 'तुलना',
                 style: Theme.of(context).textTheme.titleLarge,
               );
             }
-            final c = _clusters[index - 2];
+            final c = _clusters[index - 3];
             return ClusterCard(
               cluster: c,
               onTap: () {

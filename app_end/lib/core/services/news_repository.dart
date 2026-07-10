@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/news_article.dart';
 import 'api_endpoint_store.dart';
@@ -15,30 +17,109 @@ class NewsRepository {
     'User-Agent': 'SanksepApp/1.0',
   };
 
-  Future<List<NewsArticle>> getTopArticles({int page = 1, int limit = 10}) async {
+  /// Set right after [getTopArticles] resolves. True when the returned list
+  /// came from the offline cache because the live fetch failed.
+  bool lastFetchWasFromCache = false;
+
+  Future<List<NewsArticle>> getTopArticles({
+    int page = 1,
+    int limit = 10,
+    String? category,
+  }) async {
+    final cacheKey = _cacheKey(category, page, limit);
+    try {
+      final base = baseUrlOverride ?? await ApiEndpointStore.serverBaseUrl();
+      final uri = _buildUri(
+        base,
+        '/api/news',
+        queryParameters: {
+          'page': page.toString(),
+          'limit': limit.toString(),
+          if (category != null && category.trim().isNotEmpty)
+            'category': category.trim(),
+        },
+      );
+
+      final response = await http.get(uri, headers: _headers);
+
+      if (response.statusCode == 200) {
+        final decoded = _decodeJson(uri, response);
+        if (decoded is! Map<String, dynamic>) {
+          throw const FormatException('Expected JSON object for /api/news');
+        }
+        final List<dynamic> articlesJson = (decoded['data'] as List?) ?? const [];
+        final articles = articlesJson
+            .map((e) => NewsArticle.fromJson(e as Map<String, dynamic>))
+            .toList(growable: false);
+
+        lastFetchWasFromCache = false;
+        unawaited(_saveToCache(cacheKey, articles));
+        return articles;
+      }
+
+      throw Exception(
+        'Failed to load news: ${response.statusCode} ${response.reasonPhrase ?? ''}',
+      );
+    } catch (err) {
+      final cached = await _readFromCache(cacheKey);
+      if (cached != null) {
+        lastFetchWasFromCache = true;
+        return cached;
+      }
+      rethrow;
+    }
+  }
+
+  /// Distinct category values currently available (e.g. Politics, Sports).
+  Future<List<String>> getCategories() async {
     final base = baseUrlOverride ?? await ApiEndpointStore.serverBaseUrl();
-    final uri = _buildUri(
-      base,
-      '/api/news',
-      queryParameters: {'page': page.toString(), 'limit': limit.toString()},
-    );
+    final uri = _buildUri(base, '/api/news/categories');
 
     final response = await http.get(uri, headers: _headers);
 
     if (response.statusCode == 200) {
       final decoded = _decodeJson(uri, response);
       if (decoded is! Map<String, dynamic>) {
-        throw const FormatException('Expected JSON object for /api/news');
+        throw const FormatException(
+          'Expected JSON object for /api/news/categories',
+        );
       }
-      final List<dynamic> articlesJson = (decoded['data'] as List?) ?? const [];
-      return articlesJson
-          .map((e) => NewsArticle.fromJson(e as Map<String, dynamic>))
-          .toList(growable: false);
+      final List<dynamic> data = (decoded['data'] as List?) ?? const [];
+      return data.map((e) => e.toString()).toList(growable: false);
     }
 
     throw Exception(
-      'Failed to load news: ${response.statusCode} ${response.reasonPhrase ?? ''}',
+      'Failed to load categories: ${response.statusCode} ${response.reasonPhrase ?? ''}',
     );
+  }
+
+  static String _cacheKey(String? category, int page, int limit) {
+    final normalizedCategory = (category ?? '').trim().toLowerCase();
+    return 'news_cache_${normalizedCategory.isEmpty ? 'all' : normalizedCategory}_${page}_$limit';
+  }
+
+  static Future<void> _saveToCache(String key, List<NewsArticle> articles) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final encoded = jsonEncode(articles.map((a) => a.toJson()).toList());
+      await prefs.setString(key, encoded);
+    } catch (_) {
+      // Caching is best-effort; ignore failures (e.g. storage full).
+    }
+  }
+
+  static Future<List<NewsArticle>?> _readFromCache(String key) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final raw = prefs.getString(key);
+      if (raw == null) return null;
+      final decoded = jsonDecode(raw) as List<dynamic>;
+      return decoded
+          .map((e) => NewsArticle.fromJson(e as Map<String, dynamic>))
+          .toList(growable: false);
+    } catch (_) {
+      return null;
+    }
   }
 
   static Uri _buildUri(

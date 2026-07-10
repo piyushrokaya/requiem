@@ -3,6 +3,7 @@ const path = require("path");
 const crypto = require("crypto");
 const csv = require("csv-parser");
 const { pool, isConfigured } = require("../config/pg");
+const { stripHtml } = require("../utils/sanitizeText");
 
 // The Python pipeline still writes these two files. This service reads them and
 // loads the data into Postgres so the API can serve (and keep) history.
@@ -22,9 +23,9 @@ const clean = (v) => (v || "").toString().replace(/^﻿/, "").trim();
 const rowToArticle = (row, index) => {
   const link = clean(row.link);
   const source = clean(row.source) || "Unknown";
-  const title = clean(row.title);
-  const cleanText = clean(row.clean_text);
-  const description = clean(row.description) || cleanText;
+  const title = stripHtml(clean(row.title));
+  const cleanText = stripHtml(clean(row.clean_text));
+  const description = stripHtml(clean(row.description)) || cleanText;
   const category = clean(row.category);
   const content = cleanText || description;
   const sentiment = clean(row.sentiment) || null;

@@ -7,6 +7,7 @@ class NewsArticle {
     required this.publishedAt,
     required this.summary,
     this.fullText,
+    this.category = '',
   });
 
   final String id;
@@ -16,6 +17,7 @@ class NewsArticle {
   final DateTime publishedAt;
   final String summary;
   final String? fullText;
+  final String category;
 
   factory NewsArticle.fromJson(Map<String, dynamic> json) {
     return NewsArticle(
@@ -26,6 +28,7 @@ class NewsArticle {
       publishedAt: DateTime.parse(json['createdAt'] as String),
       summary: json['description'] as String,
       fullText: json['content'] as String?,
+      category: (json['category'] as String?) ?? '',
     );
   }
 
@@ -37,5 +40,6 @@ class NewsArticle {
     'createdAt': publishedAt.toIso8601String(),
     'description': summary,
     'content': fullText,
+    'category': category,
   };
 }

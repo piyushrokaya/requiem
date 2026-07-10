@@ -2,30 +2,63 @@ import 'package:flutter/material.dart';
 
 const _seedColor = Color(0xFF2F5DE3);
 
-ThemeData buildAppTheme() => _buildTheme(Brightness.light);
+ThemeData buildAppTheme({bool highContrast = false, bool dyslexiaFriendly = false}) =>
+    _buildTheme(
+      Brightness.light,
+      highContrast: highContrast,
+      dyslexiaFriendly: dyslexiaFriendly,
+    );
 
-ThemeData buildAppDarkTheme() => _buildTheme(Brightness.dark);
+ThemeData buildAppDarkTheme({
+  bool highContrast = false,
+  bool dyslexiaFriendly = false,
+}) => _buildTheme(
+  Brightness.dark,
+  highContrast: highContrast,
+  dyslexiaFriendly: dyslexiaFriendly,
+);
 
-ThemeData _buildTheme(Brightness brightness) {
+ThemeData _buildTheme(
+  Brightness brightness, {
+  required bool highContrast,
+  required bool dyslexiaFriendly,
+}) {
   final scheme = ColorScheme.fromSeed(
     seedColor: _seedColor,
     brightness: brightness,
+    // Material 3 contrast dial: 0 is standard, 1 is maximum contrast.
+    contrastLevel: highContrast ? 1.0 : 0.0,
   );
 
   final base = ThemeData(useMaterial3: true, colorScheme: scheme);
   final isDark = brightness == Brightness.dark;
+
+  // Dyslexia-friendly readers benefit from extra letter/word spacing and
+  // looser line height more than from a specific typeface, so we adjust
+  // spacing/weight rather than bundling a custom font.
+  final letterSpacing = dyslexiaFriendly ? 0.6 : null;
+  final bodyHeight = dyslexiaFriendly ? 1.7 : 1.4;
+  final bodyLargeHeight = dyslexiaFriendly ? 1.8 : 1.5;
 
   return base.copyWith(
     scaffoldBackgroundColor: scheme.surface,
     textTheme: base.textTheme.copyWith(
       titleLarge: base.textTheme.titleLarge?.copyWith(
         fontWeight: FontWeight.w700,
+        letterSpacing: letterSpacing,
       ),
       titleMedium: base.textTheme.titleMedium?.copyWith(
         fontWeight: FontWeight.w600,
+        letterSpacing: letterSpacing,
       ),
-      bodyMedium: base.textTheme.bodyMedium?.copyWith(height: 1.4),
-      bodyLarge: base.textTheme.bodyLarge?.copyWith(height: 1.5),
+      bodyMedium: base.textTheme.bodyMedium?.copyWith(
+        height: bodyHeight,
+        letterSpacing: letterSpacing,
+      ),
+      bodyLarge: base.textTheme.bodyLarge?.copyWith(
+        height: bodyLargeHeight,
+        letterSpacing: letterSpacing,
+      ),
     ),
     appBarTheme: AppBarTheme(
       centerTitle: false,

@@ -11,13 +11,32 @@ import 'core/state/interaction_mode.dart';
 import 'features/onboarding/dev_server_setup_page.dart';
 import 'features/onboarding/mode_selection_page.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+
+  final accessibilitySettings = AccessibilitySettings();
+  final interactionMode = InteractionModeController();
+  // Load persisted preferences before the first frame so returning users
+  // don't see defaults flash, and aren't asked to pick a mode again.
+  await Future.wait([accessibilitySettings.load(), interactionMode.load()]);
+
+  runApp(
+    MyApp(
+      accessibilitySettings: accessibilitySettings,
+      interactionMode: interactionMode,
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({
+    super.key,
+    required this.accessibilitySettings,
+    required this.interactionMode,
+  });
+
+  final AccessibilitySettings accessibilitySettings;
+  final InteractionModeController interactionMode;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -30,8 +49,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AccessibilitySettings()),
-        ChangeNotifierProvider(create: (_) => InteractionModeController()),
+        ChangeNotifierProvider.value(value: widget.accessibilitySettings),
+        ChangeNotifierProvider.value(value: widget.interactionMode),
         ChangeNotifierProvider(create: (_) => VoiceAssistantService()),
         Provider(create: (_) => NewsRepository()),
         Provider(create: (_) => CompareRepository()),
@@ -41,16 +60,21 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp(
             title: 'Sanksep',
             debugShowCheckedModeBanner: false,
-            theme: buildAppTheme(),
-            darkTheme: buildAppDarkTheme(),
+            theme: buildAppTheme(
+              highContrast: settings.highContrast,
+              dyslexiaFriendly: settings.dyslexiaFriendly,
+            ),
+            darkTheme: buildAppDarkTheme(
+              highContrast: settings.highContrast,
+              dyslexiaFriendly: settings.dyslexiaFriendly,
+            ),
             themeMode: ThemeMode.system,
             builder: (context, child) {
               final mediaQuery = MediaQuery.of(context);
-              final scaler = settings.largeText
-                  ? const TextScaler.linear(1.25)
-                  : const TextScaler.linear(1.0);
               return MediaQuery(
-                data: mediaQuery.copyWith(textScaler: scaler),
+                data: mediaQuery.copyWith(
+                  textScaler: TextScaler.linear(settings.textScale),
+                ),
                 child: child ?? const SizedBox.shrink(),
               );
             },
