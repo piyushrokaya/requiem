@@ -260,12 +260,12 @@ def analyse_cluster(articles: list[dict]) -> dict:
 
     if len(articles) < 2:
         return {**base,
-                "summary":       articles[0].get("clean_text", "")[:300],
+                "summary":       (articles[0].get("clean_text") if isinstance(articles[0].get("clean_text"), str) else "")[:300],
                 "bias_analysis": "Single source — no comparison available.",
                 "missing_info":  "N/A"}
 
     block = "\n\n".join(
-        f"SOURCE: {a['source']}\nTITLE: {a['title']}\nBODY: {a.get('clean_text','')[:600]}"
+        f"SOURCE: {a['source']}\nTITLE: {a['title']}\nBODY: {(a.get('clean_text') if isinstance(a.get('clean_text'), str) else '')[:600]}"
         for a in articles
     )
 

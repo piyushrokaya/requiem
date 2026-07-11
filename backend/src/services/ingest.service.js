@@ -138,7 +138,11 @@ const replaceClusters = async (clusters) => {
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
-    await client.query("TRUNCATE clusters");
+    // DELETE (not TRUNCATE): the qa_pairs table has a FK to clusters, and
+    // Postgres refuses to TRUNCATE a table referenced by a foreign key. DELETE
+    // cascades to qa_pairs rows tied to the old (recomputed) cluster ids, while
+    // leaving any cluster-independent cached Q&A (cluster_id IS NULL) intact.
+    await client.query("DELETE FROM clusters");
 
     const seen = new Set();
     let inserted = 0;

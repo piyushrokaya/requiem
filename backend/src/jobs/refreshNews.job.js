@@ -27,7 +27,10 @@ const runPythonPipelineOnce = () =>
 
     const child = spawn(pythonBin, [PIPELINE_SCRIPT], {
       cwd: BACKEND_ROOT,
-      env: process.env,
+      // Force UTF-8 for the child's stdout/stderr. The pipeline prints emoji
+      // and Devanagari; without this, Windows defaults to cp1252 when output is
+      // a pipe and the run crashes with UnicodeEncodeError mid-clustering.
+      env: { ...process.env, PYTHONIOENCODING: "utf-8", PYTHONUTF8: "1" },
     });
 
     child.stdout.on("data", (d) => process.stdout.write(`[python] ${d}`));

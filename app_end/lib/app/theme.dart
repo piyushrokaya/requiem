@@ -2,26 +2,33 @@ import 'package:flutter/material.dart';
 
 const _seedColor = Color(0xFF2F5DE3);
 
-ThemeData buildAppTheme({bool highContrast = false, bool dyslexiaFriendly = false}) =>
-    _buildTheme(
-      Brightness.light,
-      highContrast: highContrast,
-      dyslexiaFriendly: dyslexiaFriendly,
-    );
+ThemeData buildAppTheme({
+  bool highContrast = false,
+  bool dyslexiaFriendly = false,
+  bool boldText = false,
+}) => _buildTheme(
+  Brightness.light,
+  highContrast: highContrast,
+  dyslexiaFriendly: dyslexiaFriendly,
+  boldText: boldText,
+);
 
 ThemeData buildAppDarkTheme({
   bool highContrast = false,
   bool dyslexiaFriendly = false,
+  bool boldText = false,
 }) => _buildTheme(
   Brightness.dark,
   highContrast: highContrast,
   dyslexiaFriendly: dyslexiaFriendly,
+  boldText: boldText,
 );
 
 ThemeData _buildTheme(
   Brightness brightness, {
   required bool highContrast,
   required bool dyslexiaFriendly,
+  required bool boldText,
 }) {
   final scheme = ColorScheme.fromSeed(
     seedColor: _seedColor,
@@ -40,24 +47,37 @@ ThemeData _buildTheme(
   final bodyHeight = dyslexiaFriendly ? 1.7 : 1.4;
   final bodyLargeHeight = dyslexiaFriendly ? 1.8 : 1.5;
 
+  // Bold text: heavier body/label weight for low-vision legibility. Titles are
+  // already bold, so we nudge them one step further when enabled.
+  final bodyWeight = boldText ? FontWeight.w600 : null;
+
   return base.copyWith(
     scaffoldBackgroundColor: scheme.surface,
     textTheme: base.textTheme.copyWith(
       titleLarge: base.textTheme.titleLarge?.copyWith(
-        fontWeight: FontWeight.w700,
+        fontWeight: boldText ? FontWeight.w800 : FontWeight.w700,
         letterSpacing: letterSpacing,
       ),
       titleMedium: base.textTheme.titleMedium?.copyWith(
-        fontWeight: FontWeight.w600,
+        fontWeight: boldText ? FontWeight.w700 : FontWeight.w600,
         letterSpacing: letterSpacing,
       ),
       bodyMedium: base.textTheme.bodyMedium?.copyWith(
         height: bodyHeight,
         letterSpacing: letterSpacing,
+        fontWeight: bodyWeight,
       ),
       bodyLarge: base.textTheme.bodyLarge?.copyWith(
         height: bodyLargeHeight,
         letterSpacing: letterSpacing,
+        fontWeight: bodyWeight,
+      ),
+      bodySmall: base.textTheme.bodySmall?.copyWith(
+        letterSpacing: letterSpacing,
+        fontWeight: bodyWeight,
+      ),
+      labelLarge: base.textTheme.labelLarge?.copyWith(
+        fontWeight: boldText ? FontWeight.w700 : null,
       ),
     ),
     appBarTheme: AppBarTheme(

@@ -58,41 +58,49 @@ class _AppShellState extends State<AppShell> {
           ]
         : const <Widget>[NewsPage(), ComparePage(), AskPage()];
 
-    final showingVoiceDestination = voiceOnly && _showVoiceDestination;
+    // Mode can change at runtime (via Settings), and voice-only has fewer tabs
+    // than normal mode. If the saved index no longer exists in the current
+    // page set (e.g. was on the Ask tab, then switched to voice), fall back to
+    // the voice destination menu instead of indexing out of range.
+    final showingVoiceDestination =
+        voiceOnly && (_showVoiceDestination || _index >= pages.length);
+    final safeIndex = _index < pages.length ? _index : 0;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           showingVoiceDestination ? 'आवाज नेभिगेसन' : _titles[_index],
         ),
-        actions: (showingVoiceDestination || voiceOnly)
-            ? null
-            : [
-                IconButton(
-                  tooltip: 'Speak / Voice command',
-                  icon: const Icon(Icons.mic),
-                  onPressed: () async {
-                    final voice = context.read<VoiceAssistantService>();
-                    final settings = context.read<AccessibilitySettings>();
-                    await voice.startVoiceCommandMode(
-                      onText: (text) => _handleVoiceCommand(
-                        context,
-                        settings: settings,
-                        spoken: text,
-                      ),
-                    );
-                  },
-                ),
-                IconButton(
-                  tooltip: 'Server settings',
-                  icon: const Icon(Icons.settings_outlined),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const SettingsPage()),
-                    );
-                  },
-                ),
-              ],
+        actions: [
+          // Mic command is only for normal mode's tab navigation. The settings
+          // gear stays visible in every mode so users can always reach it —
+          // most importantly to switch back OUT of voice-only mode.
+          if (!voiceOnly && !showingVoiceDestination)
+            IconButton(
+              tooltip: 'Speak / Voice command',
+              icon: const Icon(Icons.mic),
+              onPressed: () async {
+                final voice = context.read<VoiceAssistantService>();
+                final settings = context.read<AccessibilitySettings>();
+                await voice.startVoiceCommandMode(
+                  onText: (text) => _handleVoiceCommand(
+                    context,
+                    settings: settings,
+                    spoken: text,
+                  ),
+                );
+              },
+            ),
+          IconButton(
+            tooltip: 'Settings',
+            icon: const Icon(Icons.settings_outlined),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const SettingsPage()),
+              );
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: showingVoiceDestination
@@ -116,7 +124,7 @@ class _AppShellState extends State<AppShell> {
                   }
                 },
               )
-            : pages[_index],
+            : pages[safeIndex],
       ),
       bottomNavigationBar: voiceOnly
           ? null

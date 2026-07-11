@@ -63,10 +63,12 @@ class _MyAppState extends State<MyApp> {
             theme: buildAppTheme(
               highContrast: settings.highContrast,
               dyslexiaFriendly: settings.dyslexiaFriendly,
+              boldText: settings.boldText,
             ),
             darkTheme: buildAppDarkTheme(
               highContrast: settings.highContrast,
               dyslexiaFriendly: settings.dyslexiaFriendly,
+              boldText: settings.boldText,
             ),
             themeMode: ThemeMode.system,
             builder: (context, child) {
