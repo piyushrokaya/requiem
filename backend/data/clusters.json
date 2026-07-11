@@ -1,182 +1,428 @@
 [
   {
-    "cluster_id": 10,
+    "cluster_id": 70,
     "sources": [
-      "Nagarik",
-      "News of Nepal"
+      "News of Nepal",
+      "Annapurna Post"
     ],
     "titles": [
-      "ज्ञानेन्द्र शाहीको प्रश्न : गृहमन्त्रीज्यू, तपाईँ गृहमन्त्री हो कि कन्टेन्ट क्रिएटर ?",
-      "गृहमन्त्रीलाई ज्ञानेन्द्र शाहीको प्रश्न- तपाईं गृहमन्त्री हो कि कन्टेन्ट क्रियटर?"
+      "सर्वोच्च अदालतमा साउन ११ देखि नियमति सुनुवाइ हुने",
+      "सर्वोच्च अदालतमा साउन ११ देखि नियमित सुनुवाइ हुने"
     ],
     "category": "Politics",
-    "one_liner": "काठमाडौँमा ज्ञानेन्द्र शाहीले गृहमन्त्री गुरुङलाई 'कन्टेन्ट क्रिएटर' भन्दै गणेश नेपाली प्रकरणमा प्रचारमुखी गतिविधिमाथि प्रश्न उठाउनु बाटो।",
-    "short_summary": "प्रतिनिधী सभा बैठकमा राप्रपाका नेता ज्ञानेन्द्र शाहीले गृहमन्त्री सुधन गुरुङलाई प्रश्न सोधेका थिए। उनले मन्त्री गुरुङलाई ‘गृहमन्त्री हो कि कन्टेन्ट क्रियटर?’ जस्तो लाग्छ भनेर टिप्पणी गरेका थिए, र गणेश नेपालीको मृत्यु प्रकरणमा मन्त्रीले प्रचारमुखी गतिविधिमा मात्र ध्यान गराएको आरोप लगाए। यसले मन्त्री गुरुङको कार्यशैलीमाथि असन्तुष्टि जनाउँछ।",
-    "key_points": "Okay, here’s the extraction of three key facts from the provided articles, formatted as requested:\n\n१. ज्ञानेन्द्र शाहीले गृहमन्त्री सुधन गुरुङको कार्यशैलीप्रति असन्तुष्टि व्यक्त गरेका छन्।\n२. शाहीले गृहमन्त्रीलाई “तपाईं गृहमन्त्री हो कि कन्टेन्ट क्रिएटर?” जanggilदै प्रचारमुखी गतिविधिमा ध्यान दिइएको आरोप लगाएका छन्।\n३. गणेश नेपालीको मृत्यु प्रकरणमा, शाहीले गृहमन्त्रीले वास्तविक उद्धार र उपचार नभई प्रचारमुखी गतिविधिमा बढी ध्यान दिएको आरोप लगाएका छन्।",
-    "missing_info": "- Nagarik ले ज्ञानेन्द्र शाहीको नाम उल्लेख गर्यो, तर News of Nepal ले यसलाई उल्लेख नगरेको छ।\n- Nagarik ले गृहमन्त्री सुधन गुरुङको नाम उल्लेख गर्यो, तर News of Nepal ले यसलाई उल्लेख गरेको छ।\n- Nagarik ले गणेश नेपालीको मृत्यु प्रकरण उल्लेख गर्यो, तर News of Nepal ले यसलाई उल्लेख गरेको छ।",
-    "coverage_breakdown": "Okay, here’s the breakdown of facts extracted from each source, presented as requested:\n\n**Source: Nagarik**\n- ज्ञानेन्द्र शाही\n- गृहमन्त्री सुधन गुरुङ\n- “तपाईँ गृहमन्त्री हो कि कन्टेन्ट क्रिएटर ?” (Quote)\n- गणेश नेपालीको उपचार गर्ने उद्देश्य नरहेको आरोप\n\n**Source: News of Nepal**\n- ज्ञानेन्द्र शाही\n- गृहमन्त्री सुधन गुरुङ\n- “तपाईं गृहमन्त्री हो कि कन्टेन्ट क्रियटर?” (Quote)\n- काठमाडौं (Location)\n- राप्रपाका संसदीय दलका नेता ज्ञानेन्द्र शाही\n- गणेश नेपालीको मृत्यु प्रकरण\n- प्रचारमुखी गतिविधिमा बढी ध्यान दिएको आरोप\n- गृहमन्त्री क्यामरा [Missing text from original source]"
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
   },
   {
-    "cluster_id": 38,
+    "cluster_id": 79,
+    "sources": [
+      "Artha Sarokar",
+      "Artha Sarokar",
+      "OnlineKhabar"
+    ],
+    "titles": [
+      "अमेरिका पठाउने भन्दै तीन लाख ठग्ने व्यक्ति पक्राउ",
+      "विदेश पठाउने भन्दै लाखौँ ठगी, तीन जना पक्राउ",
+      "यूएईका कलेजमा पठाउने भन्दै ठगी गर्ने ९ जना कन्सल्टेन्सी सञ्चालक पक्राउ"
+    ],
+    "category": "Crime",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
+  },
+  {
+    "cluster_id": 110,
+    "sources": [
+      "Annapurna Post",
+      "News of Nepal",
+      "Setopati",
+      "OnlineKhabar",
+      "Nagarik",
+      "Nagarik",
+      "Annapurna Post"
+    ],
+    "titles": [
+      "गणेश नेपालीको आत्मदाहसँग सम्बन्धित घटनाको निष्पक्ष छानबिन गरी दोषिमाथि कारबाही गर्न नेकपाको माग",
+      "सम्पत्ति छानबिन आयोगलाई हालका लागि काम रोक्न सर्वोच्चको अन्तरिम आदेश",
+      "सम्पत्ति जाँचबुझ आयोगलाई तत्काल काम नगर्न सर्वोच्चको अन्तरिम आदेश",
+      "सम्पत्ति छानबिन आयोग गठन र क्षेत्राधिकारमै सर्वोच्चले उठायो गम्भीर प्रश्न",
+      "सरकारलाई सर्वोच्चको दवाव: सम्पत्ति छानबिन आयोगलाई कारबाही सिफारिस नगर्न अन्तरिम आदेश",
+      "कांग्रेस सभापति देउवाले संसदमा भने : बाँस्कोटामाथि छानबिन नहुनु गम्भीर",
+      "सम्पत्ति छानबिन आयोग गठन र क्षेत्राधिकारमा सर्वोच्चको प्रश्न"
+    ],
+    "category": "Crime",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
+  },
+  {
+    "cluster_id": 118,
+    "sources": [
+      "Onlinetv Nepal",
+      "Nagarik"
+    ],
+    "titles": [
+      "युथ कांग्रेसले आत्मदाहमा ज्यान गुमाएका गणेशको सम्झनामा माइतीघरमा गर्यो दीप  प्रज्वलन",
+      "गणेश नेपाली निधन: माइतीघरमा दीप प्रज्वलन"
+    ],
+    "category": "Health",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
+  },
+  {
+    "cluster_id": 121,
+    "sources": [
+      "Thahakhabar",
+      "Nagarik"
+    ],
+    "titles": [
+      "राजस्वको दायरा विस्तार र प्रदेशको आम्दानी बढाउनुपर्नेमा जोड",
+      "राजस्वको दायरा विस्तार र प्रदेशको आम्दानी बढाउनुपर्नेमा जोड"
+    ],
+    "category": "Business",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
+  },
+  {
+    "cluster_id": 144,
+    "sources": [
+      "Setopati",
+      "Thahakhabar"
+    ],
+    "titles": [
+      "प्रस्तावित निर्वाचन आयुक्तविरुद्ध उजुरी आह्वान",
+      "प्रस्तावित निर्वाचन आयुक्तविरुद्ध उजुरी आह्वान"
+    ],
+    "category": "General",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
+  },
+  {
+    "cluster_id": 154,
     "sources": [
       "Nagarik",
+      "Nagarik",
+      "Nagarik",
+      "OnlineKhabar",
+      "OSNepal",
+      "Nagarik"
+    ],
+    "titles": [
+      "यस्तो छ आजका लागि कृषिउपजको थोक मूल्य",
+      "आज यस्तो छ कृषिउपजको थोक मूल्य",
+      "यस्तो छ आजका लागि कृषिउपजको थोक मूल्य",
+      "यस्तो छ आज तरकारी र फलफूलको मूल्य",
+      "यस्तो छ आजका लागि कृषिउपजको थोक मूल्य",
+      "यस्तो छ आज कृषिउपजको थोक मूल्य"
+    ],
+    "category": "Business",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
+  },
+  {
+    "cluster_id": 173,
+    "sources": [
+      "Thahakhabar",
+      "Artha Sarokar",
+      "Artha Sarokar",
+      "OnlineKhabar",
+      "Thahakhabar",
+      "News of Nepal",
+      "Setopati",
+      "Gorkhapatra",
+      "Nagarik",
+      "OSNepal",
+      "Annapurna Post"
+    ],
+    "titles": [
+      "नेपालीको निधनप्रति यातायात व्यवसायी राष्ट्रिय महासंघद्वारा दुःख व्यक्त",
+      "गणेश नेपाली मृत्यु प्रकरणः डीआईजीको नेतृत्वमा छानविन समिति गठन",
+      "गणेश नेपाली मृत्यु प्रकरणः परिवारलाई ३ दिनको तलब सहयोग गर्ने काँग्रेस सांसदको घोषणा",
+      "गणेश नेपालीको परिवारलाई काठमाडौं महानगरको सहयोग र रोजगारी दिने घोषणा",
+      "गणेश नेपालीका परिवारलाई महानगरले रोजगारी दिने",
+      "गणेश नेपालीको निधनप्रति काठमाडौं महानगरद्वारा दुःख व्यक्त, परिवारलाई सहयोग गर्ने घोषणा",
+      "गणेश नेपालीको परिवारलाई काठमाडौं महानगरले मानवीय सहयोग, रोजगारी र नि:शुल्क शिक्षा दिने",
+      "काठमाडौँ महानगरपालिकाले गणेश नेपालीका परिवारलाई सहयोग गर्ने",
+      "नेपाली समाज बुल्गेरियाद्वारा स्वर्गीय अर्यालका परिवारलाई पाँच लाख सहयोग",
+      "गणेश नेपालीको निधनप्रति काठमाडौं महानगरपालिकाद्वारा दुःख व्यक्त, परिवारलाई सहयोग गर्ने घोषणा",
+      "महानगरले गणेशकाे परिवारलाई रोजगारी र सन्तानलाई निःशुल्क शिक्षा दिने"
+    ],
+    "category": "Health",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
+  },
+  {
+    "cluster_id": 179,
+    "sources": [
+      "Gorkhapatra",
+      "OnlineKhabar"
+    ],
+    "titles": [
+      "भौतिक पूर्वाधार मन्त्रालयको ७१ प्रतिशत बजेट खर्च",
+      "लुम्बिनी सरकारको बजेट खर्च ६७ प्रतिशत, कुन मन्त्रालयको खर्च कति ?"
+    ],
+    "category": "Business",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
+  },
+  {
+    "cluster_id": 180,
+    "sources": [
+      "Nagarik",
+      "Nagarik",
+      "OnlineKhabar",
+      "OSNepal",
       "Onlinetv Nepal"
     ],
     "titles": [
-      "नागरिकले आफ्नै शरीरमा आगो लगाउनुपर्ने अवस्था कानुनी राज्यको गम्भीर असफलता हो : उपेन्द्र यादव",
-      "नगर प्रहरीको ‘ह्वील लक’पछि पठाओ चालकले राहदानी विभागअघि लगाए आगो, अवस्था गम्भीर"
+      "मन्त्री पुनको प्रश्न : अपराध गर्नेलाई दण्ड नगरे समाज कस्तो हुन्छ ?",
+      "एक वर्षसम्म युट्युबर, पत्रकारलाई अन्तर्वार्ता नदिने महावीर पुनको घोषणा",
+      "एक वर्षसम्म सञ्चार माध्यममा अन्तर्वार्ता नदिने मन्त्री पुनको घोषणा",
+      "एक बर्ष सम्म कुनै पनि मिडियालाई अन्तरवार्ता नदिने महावीर पुनको घोषणा",
+      "ट्राफिक जरिवानाबारे विवादित अभिव्यक्तिपछि मन्त्री महावीर पुनको माफी, एक वर्ष अन्तरवार्ता नदिने घोषणा"
     ],
-    "category": "Crime",
-    "one_liner": "काठमाडौंमा 'ह्वील लक'पछि पठाओ चालकले राहदानी विभागअगाडि आगो लगाउने प्रयास गरेर ज्यानको खतरा भोगे।",
-    "short_summary": "काठमाडौंमा राहदानी विभागको गेटमा पठाओ चालकले आत्मदाहको प्रयास गरेपछि घटना भएको थियो। ‘ह्वील लक’ लगाएपछि नगर प्रहरी र चालकबीच विवाद भए सोरु गाउँपालिकाका एक व्यक्तिले राहदानी विभाग अगाडि आगो लगाउने प्रयास गरेका थिए। उनको वीर अस्पतालमा उपचार भइरहेको छ।",
-    "key_points": "Okay, here are three key facts extracted from the provided articles, formatted as requested:\n\n१. उपेन्द्र यादवले ‘एउटा व्यक्तिको मृत्युमा परिवारले आफ्नो सदस्य मात्र गुमाउँदैन, समाजले एउटा सक्रिय नागरिक गुमाउँछ र राज्यले आफ्ना नागरिकप्रतिको उत्तरदायित्वमाथि गम्भीर प्रश्नको सामना गर्नुपर्छ’ भनेका छन्।\n२. काठमाडौं महानगरपालिकाको नगर प्रहरीले ‘ह्वील लक’ लगाएपछि पठाओ चालक मुगुको सोरु गाउँपालिका–१ बाट भक्तपुर स्थित राहदानी विभाग अगाडि आत्मदाहको प्रयास गरेका थिए।\n३. वीर अस्पतालमा उपचाररत पठाओ चालक बिहीबार दिउँसो करिब १:४५ बजे त्रिपुरेश्वरस्थित राहदानी विभागको गेट नम्बर–३ अगाडि घाइते भएका हुनुहुन्छ।",
-    "missing_info": "- Nagarik ले उपेन्द्र यादवको नाम उल्लेख गर्यो, तर Onlinetv Nepal ले यसको उल्लेख नगरेको छ।\n- Nagarik ले त्रिपुरेश्वरस्थित राहदानी विभागको गेट नम्बर–३ को कुरा गरेको छ, तर Onlinetv नेपालले यसको उल्लेख नगरेको छ।",
-    "coverage_breakdown": "Okay, here’s a breakdown of the facts from each source, presented as requested:\n\n**Source: Nagarik**\n- ‘एउटा व्यक्तिको मृत्युमा परिवारले आफ्नो सदस्य मात्र गुमाउँदैन, समाजले एउटा सक्रिय नागरिक गुमाउँछ’ – अध्यक्ष यादवको वक्तव्य।\n- अध्यक्ष उपेन्द्र यादव\n- त्रिपुरेश्वर (स्थान)\n- “राज्यले आफ्ना नागरिकप्रतिको उत्तरदायित्वमाथि गम्भीर प्रश्नको सामना गर्नुपर्छ” - अध्यक्ष यादवको वक्तव्य।\n\n**Source: Onlinetv Nepal**\n- मुगुको सोरु गाउँपालिका–१ स्थायी घर भई हाल भक्तपुर बस्दै आएका [नाम उल्लेख गरिएको छैन]\n- राहदानी विभाग अगाडि आगो लगाउने प्रयास\n- वीर अस्पताल (स्थान)\n- बिहीबार दिउँसो करिब १:४५ बजे (समय)\n- त्रिपुरेश्वरस्थित राहदानी विभागको गेट नम्बर–३ (स्थान)"
+    "category": "General",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
   },
   {
-    "cluster_id": 45,
+    "cluster_id": 203,
     "sources": [
       "Nagarik",
+      "Nagarik",
+      "OSNepal"
+    ],
+    "titles": [
+      "नेपाल-बेलायत आर्थिक साझेदारी फोरम २०२६ सम्पन्न, दुई महत्वपूर्ण सम्झौतामा हस्ताक्षर",
+      "बेलायत-नेपाल वार्ता : 'आर्थिक प्याकेज' मा जुटेन सहमति, 'वेलफेयर' मा सकारात्मक",
+      "रोटरी क्लब अफ नेपाल मण्डलको पदस्थापन समारोह सम्पन्न"
+    ],
+    "category": "General",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
+  },
+  {
+    "cluster_id": 205,
+    "sources": [
       "OnlineKhabar",
+      "OSNepal"
+    ],
+    "titles": [
+      "जन्मभूमि इंग्ल्यान्ड विरुद्ध करियरकै महत्त्वपूर्ण खेल खेल्दै हालान्ड, रचिएला नयाँ इतिहास ?",
+      "सेमिफाइनल स्थानका लागि नर्वे र इंग्ल्यान्ड भिड्दै, कसले बनाउला इतिहास ?"
+    ],
+    "category": "General",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
+  },
+  {
+    "cluster_id": 211,
+    "sources": [
+      "OnlineKhabar",
+      "OnlineKhabar",
+      "News of Nepal",
+      "Setopati",
+      "Setopati",
+      "Setopati",
+      "Gorkhapatra",
+      "Annapurna Post",
+      "Onlinetv Nepal",
+      "OnlineKhabar",
+      "OSNepal",
+      "Gorkhapatra",
+      "Thahakhabar"
+    ],
+    "titles": [
+      "यसरी डुब्यो कीर्तिपुरको सुकुमवासी होल्डिङ सेन्टर (तस्वीरहरू)",
+      "कीर्तिपुरको सुकुमवासी होल्डिङ सेन्टरमा वाग्मती पस्यो, ५४ जनाको उद्धार",
+      "डुब्यो कीर्तिपुरको सुकुमवासी होल्डिङ सेन्टर",
+      "बिहानसम्म जलमग्न छ कीर्तिपुरको होल्डिङ सेन्टर, हेर्नुस् ड्रोनभ्यू",
+      "होल्डिङ सेन्टरमा बाढी पसेपछि सुकुम्बासीको बिचल्ली (तस्बिरहरू)",
+      "कीर्तिपुरको होल्डिङ सेन्टरमा मध्यरातमा पस्यो बाढी",
+      "सुकुम्वासी होल्डिङ सेन्टर डुबानमा (फोटो फिचर)",
+      "कीर्तिपुरस्थित होल्डिङ सेन्टर जलमग्न, सुकुम्बासीको बिचल्ली (तस्बिरहरू)",
+      "कीर्तिपुरको सुकुम्बासी होल्डिङ सेन्टर डुबानमा",
+      "कीर्तिपुरको होल्डिङ सेन्टरबाट सुकुमवासीको उठीबास (तस्वीरहरू)",
+      "राधास्वामी सत्सङ होल्डिङ सेन्टर जलमग्न, सुकुम्बासीको जनजीवन प्रभावित (तस्विरहरू)",
+      "बाढीपछि होल्डिङ सेन्टरका सुकुम्वासी समस्यामा",
+      "होल्डिङ सेन्टरमा बाढी पस्दा बिचल्लीमा परेका सुकुम्वासी भन्छन्– ‘अब नदीमा हाम फाल्नुको विकल्प छैन’"
+    ],
+    "category": "General",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
+  },
+  {
+    "cluster_id": 212,
+    "sources": [
+      "OnlineKhabar",
+      "News of Nepal",
+      "Gorkhapatra",
+      "Gorkhapatra"
+    ],
+    "titles": [
+      "खोटाङ लेनदेन विवादमा हत्या घटना : थप दुई जना पक्राउ",
+      "बोक्सी आरोपमा कुटपिट गर्ने दुई पक्राउ",
+      "हत्या आरोपमा एकै घरका तीन जना पक्राउ",
+      "बोक्सी आरोपसम्बन्धी मुद्दामा दुई जना पक्राउ"
+    ],
+    "category": "Crime",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
+  },
+  {
+    "cluster_id": 220,
+    "sources": [
+      "Gorkhapatra",
+      "Annapurna Post"
+    ],
+    "titles": [
+      "प्रदेश खर्च : सतसट्ठी प्रतिशतमा सीमित",
+      "पुँजीगत खर्च साढे ४४ प्रतिशतमा सीमित"
+    ],
+    "category": "General",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
+  },
+  {
+    "cluster_id": 222,
+    "sources": [
+      "OnlineKhabar",
+      "Annapurna Post"
+    ],
+    "titles": [
+      "फिलिपिन्समा ‘बावी’ आँधीको कहर : पहिरोमा १५ जनाको मृत्यु, पूर्वी एसियाका देशमा उच्च सतर्कता",
+      "दक्षिणी फिलिपिन्समा भीषण आँधीका कारण १५ जनाको मृत्यु"
+    ],
+    "category": "General",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
+  },
+  {
+    "cluster_id": 226,
+    "sources": [
+      "Gorkhapatra",
+      "Thahakhabar",
+      "Nagarik"
+    ],
+    "titles": [
+      "नवीकरण नगर्ने ४४ निर्माण कम्पनीको इजाजत खारेज",
+      "नवीकरण नभएका ४४ निर्माण कम्पनीको इजाजत खारेज",
+      "नवीकरण नगर्ने ४४ निर्माण कम्पनीको इजाजत खारेज"
+    ],
+    "category": "General",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
+  },
+  {
+    "cluster_id": 232,
+    "sources": [
+      "Onlinetv Nepal",
+      "News of Nepal",
+      "Artha Sarokar",
+      "Onlinetv Nepal",
+      "Onlinetv Nepal",
+      "Gorkhapatra",
+      "Annapurna Post",
+      "Annapurna Post",
+      "OnlineKhabar",
+      "News of Nepal",
+      "OnlineKhabar",
+      "OnlineKhabar",
+      "OnlineKhabar",
+      "News of Nepal",
+      "News of Nepal",
+      "News of Nepal",
+      "News of Nepal",
+      "Setopati",
+      "Onlinetv Nepal",
+      "Gorkhapatra",
+      "Thahakhabar",
+      "Nagarik",
+      "Onlinetv Nepal",
+      "Annapurna Post",
       "Setopati"
     ],
     "titles": [
-      "संसद्‌मा भावुक भएर उभिएका गृहमन्त्री सांसद्हरूका अगाडि रोए (भिडियो)",
-      "संसद्को रोस्ट्रममा पुगेर भावुक बने गृहमन्त्री",
-      "संसदको रोष्ट्रममै भावुक भए गृहमन्त्री गुरूङ"
-    ],
-    "category": "Health",
-    "one_liner": "गृहमन्त्री गुरुङ संसद् भवनमा गणेश नेपालीको मृत्यु प्रकरणमा जवाफ दिँदा भावुक भएर रोए।",
-    "short_summary": "गृहमन्त्री सुधन गुरुङ प्रतिनिधिसभाको बैठकमा गणेश नेपालीको मृत्यु प्रकरणमाथि जवाफ दिँदा भावुक भएका थिए। उहाँले संसदको रोस्ट्रममै उभिएर बोल्नुका कारण आँशु आए र उहाँ अगाडिका सांसद्हरू पनि दु:ख व्यक्त गरे। यो घटना शुक्रबार भएको थियो।",
-    "key_points": "Here’s the extracted information based on the provided sources:\n\n१. गृहमन्त्री सुधन गुरुङ गणेश नेपालीको मृत्यु प्रकरणमा संसदमा भावुक भएर रोए।\n२. प्रतिनिधिसभा बैठकमा शुक्रबार बोल्न पुgende गृहमन्त्री गुरुङले समय लिएर रोस्ट्रममै भावुक बनेका थिए।\n३. गृहमन्त्री सुधन गुरुङ संसदको रोष्ट्रममै भावुक भएका कारण सार्वजनिक भए।",
-    "missing_info": "- Nagarik ले गणेश नेपाली मृत्यु प्रकरणमा गृहमन्त्री सुधन गुरुङको भावुक बनेको तथ्य उल्लेख गर्यो, तर OnlineKhabar र Setopati ले यसको उल्लेख नगरेन्।",
-    "coverage_breakdown": "Okay, here’s the breakdown of facts from each source, presented as requested:\n\n**Source: Nagarik**\n- गणेश नेपाली मृत्यु प्रकरणमा\n- गृहमन्त्री सुधन गुरुङ\n- भावुक बने\n- संसद् मा उभिएका थिए\n\n**Source: OnlineKhabar**\n- प्रतिनिधिसभा बैठकमा\n- शुक्रबार\n- उनी बोल्न पुगेका थिए \n- समय लिएर\n\n**Source: Setopati**\n- गृहमन्त्री सुधन गुरूङ\n- संसदको रोष्ट्रममै\n- भावुक बनेका छन्"
-  },
-  {
-    "cluster_id": 51,
-    "sources": [
-      "OnlineKhabar",
-      "Gorkhapatra"
-    ],
-    "titles": [
-      "म स्टन्टबाजी गर्न आएको होइन, देशको सेवा गर्न आएको हुँ : गृहमन्त्री गुरुङ",
-      "कसैको पीडालाई राजनीतिकरण नगरौँ : गृहमन्त्री गुरुङ"
-    ],
-    "category": "Politics",
-    "one_liner": "गृहमन्त्री गुरुङले काठमाडौंमा सांसदहरूलाई पीडा राजनीतिकरण नगर्न आग्रह गरेका छन्।",
-    "short_summary": "गृहमन्त्री गुरुङले सांसदहरूलाई देशको सेवा गर्न आएको बताएका छन्। उनी संसद्मा घाँटी चिच्याएर मुद्दा नहुने जिकिर गरे र कसैको पीडालाई राजनीतिकरण नगर्र्नुपर्छ भनिएर पनि सांसदहरूलाई आग्रह गरेका थिए।",
-    "key_points": "Okay, here’s the extraction of three key facts from the provided articles, formatted as requested:\n\n१. गृहमन्त्री गुरुङले संसद्मा घाँटी चिच्याउनेको आलोचना गरेका छन्।\n२. सुधन गुरुङले काठमाडौँमा सांसदहरूलाई राजनीतिकरण नहुने पीडामा ध्यान नदिनेसमेत चेतावनी दिएका छन्।\n३. प्रतिनिधिसभा बैठकमा गुरुङले प्रश्नको जवाफ दिँदा सांसदहरूलाई राजनीतिकरण नहुने बताएका थिए।",
-    "missing_info": "- OnlineKhabar ले गृहमन्त्री गुरुङको नाम उल्लेख गर्यो, तर Gorkhapatra ले सांसदहरूको नाम उल्लेख गरेनन्।\n- OnlineKhabar ले शुक्रबार प्रतिनिधिसभाको बैठकमा उठेका प्रश्नको जवाफ दिने गरेको तथ्य उल्लेख गर्यो, तर Gorkhapatra ले यसको विस्तृत विवरण नदिएको छ।",
-    "coverage_breakdown": "Okay, here’s the breakdown of facts from each source, as requested:\n\n**Source: OnlineKhabar**\n- म स्टन्टबाजी गर्न आएको होइन, देशको सेवा गर्न आएको हुँ : गृहमन्त्री गुरुङ\n- (No other specific details are present in this short excerpt.)\n\n\n**Source: Gorkhapatra**\n- काठमाडौँ\n- असार २६ गते\n- गृहमन्त्री सुधन गुरुङ\n- सांसदहरू\n- संसद्‌मा घाँटी चिच्याएर मात्रै नहुने\n- प्रतिनिधिसभाको बैठक\n- शुक्रबार"
-  },
-  {
-    "cluster_id": 53,
-    "sources": [
-      "Artha Sarokar",
-      "Gorkhapatra"
-    ],
-    "titles": [
-      "शुक्रबार १.१३ अंकले घट्यो नेप्से परिसूचक, बजार २६००.७८ बिन्दुमा",
-      "नेप्से परिसूचक झिनो अङ्कले घट्यो"
-    ],
-    "category": "Business",
-    "one_liner": "शुक्रबार नेप्से परिसूचक १.१३ अंकले घट्दा २६००.७८ बिन्दुमा समापन भयो, काठमाडौं।",
-    "short_summary": "शुक्रबार सेयर बजारमा नेप्से परिसूचक १.१३ अंकले घट्यो। काठमाडौँमा भएको कारोबारमा ३६७ कम्पनीको १ करोड ६० हजार ५३७ कित्ता सेयर खरिद बिक्री भएर रु. ६ अर्ब ८६ कोभन्दा धेरै कारोबार भएको थियो। बजारमा सेयरको मूल्य झिनो अङ्कले ओरालो लाग्यो।",
-    "key_points": "Here’s the extraction of three key facts from the provided articles, formatted as requested:\n\n१. शुक्रबार नेप्से परिसूचक १.१३ अंकले घट्दा २६००.७८ बिन्दुमा पुग्यो।\n२. नेप्सेमा कुल ३६७ कम्पनीको १ करोड ६ लाख ६० हजार ५३७ कित्ता सेयर खरिद बिक्री भयो।\n३. नेपाल स्टक एक्सचेञ्जका अनुसार नेप्से परिसूचक एक दशमलव १३ अङ्कले ओरालो लागेर २६००.७८ बिन्दुमा पुग्यो।",
-    "missing_info": "- Artha Sarokar ले नेप्से परिसूचक २६००.७८ बिन्दुमा पुगेको उल्लेख गर्यो, तर Gorkhapatra ले दुई हजार... उल्लेख गर्यो।\n- Artha Sarokar ले रू. ६ अर्ब ८६ करोडमाथिको सेयर कारोबार भएको उल्लेख गर्यो, तर Gorkhapatra ले यो जानकारी दिएन।",
-    "coverage_breakdown": "Okay, here’s a breakdown of the facts presented in each source, following your requested format:\n\n**Source: Artha Sarokar**\n- नेप्से परिसूचक १.१३ अंकले घट्यो।\n- २६००.७८ बिन्दुमा पुग्यो।\n- ३६७ कम्पनी\n- १ करोड ६ लाख ६० हजार ५३७ कित्ता सेयर खरिद बिक्री हुँदा \n- रू. ६ अर्ब ८६ करोडमाथिको सेयर कारोबार भएको छ ।\n\n**Source: Gorkhapatra**\n- नेप्से परिसूचक झिनो अङ्कले घट्यो।\n- एक दशमलव १३ अङ्कले ओरालो लागेर दुई हजार... (The rest of the sentence is incomplete in this excerpt)"
-  },
-  {
-    "cluster_id": 61,
-    "sources": [
-      "OnlineKhabar",
-      "Annapurna Post"
-    ],
-    "titles": [
-      "गृहमन्त्रीको प्रश्न– ट्राफिकले ह्वीललक गरेको होइन, स्थानीय सरकार कसको छ ?",
-      "गृहमन्त्रीको प्रश्न : स्थानीय सरकार कसको छ ? गणेश नेपालीको बाइकमा ह्वील लक लगाएको कसले ?"
-    ],
-    "category": "Politics",
-    "one_liner": "गृहमन्त्रीले गणेश नेपालीको बाइकमा ह्वील लक लगाएको कुरालाई प्रश्न गर्दै स्थानीय सरकार कसको छ भने सोधेका छन्।",
-    "short_summary": "गृहमन्त्रीले बाइक दुर्घटनामा ज्यान गएका एक युवाको बाइकमा ह्वील लक कसले लगाए भन्ने सोधे। उनी स्थानीय सरकारको नेतृत्व कतिपटकको छ र यसमा ‘रास्वपा’को भूमिका छैै त भन्नेसम्म प्रश्न गरेका थिए। यस घटनालाई बचाउन गृहमन्त्री फिल्डमा नै गएर प्रयास गरिएको पनि बताएका छन्।",
-    "key_points": "Here’s the analysis of the articles, formatted as requested:\n\n१. गृहमन्त्री सुधन गुरुङ्गले गणेश नेपालीको बाइकमा ह्वील लक लगाएको कसले भन्ने प्रश्न संसदमा उठाएका छन्।\n२. गृहमन्त्री गुरुङ्गले रास्वपाको स्थानीय सरकार नेतृत्व भएको आरोप लगाएका छन्।\n३. गणेश नेपालीको आत्मदाहपछि मृत्यु भएपछि यो घटना भएको थियो।",
-    "missing_info": "- OnlineKhabar ले ‘ गणेश नेपाली’ नाम उल्लेख गर्यो, तर Annapurna Post र अपडेटमा यसको अभाव छ।",
-    "coverage_breakdown": "Okay, here’s the breakdown of specific facts from each source, following your instructions:\n\n**Source: OnlineKhabar**\n- गृहमन्त्रीको प्रश्न\n- ट्राफिकले ह्वीललक गरेको होइन\n- ‘जुन ठाउँमा घटना घट्यो । त्यो ठाउँमा ट्राफिकले ह्वील लक गरेको होइन’\n- रास्वपा\n\n**Source: Annapurna Post**\n- गृहमन्त्री सुधन गुरुङ्ग\n- गणेश नेपाली (नाम)\n- मोटरसाइकल (बाइक)\n- ह्वील लक (क्रियापद)\n- काठमाडौं (स्थान) \n- आत्मदाहपछि मृत्यु भएका (घटना प्रकार)\n- रास्वपासँग वहुमत होला"
-  },
-  {
-    "cluster_id": 63,
-    "sources": [
-      "Nagarik",
-      "Nagarik",
-      "OnlineKhabar",
-      "OnlineKhabar",
-      "News of Nepal",
-      "News of Nepal",
-      "News of Nepal",
-      "OSNepal",
-      "OSNepal",
-      "Artha Sarokar",
-      "Artha Sarokar",
-      "Artha Sarokar",
-      "Onlinetv Nepal",
-      "Onlinetv Nepal",
-      "Setopati",
-      "Gorkhapatra",
-      "Gorkhapatra",
-      "Gorkhapatra",
-      "Thahakhabar",
-      "Annapurna Post",
-      "Annapurna Post",
-      "Annapurna Post",
-      "Annapurna Post"
-    ],
-    "titles": [
-      "सांसद जगदिश खरेलले भने: गणेश नेपालीको आत्मदाह घटनाको निष्पक्ष छानबिन होस्",
-      "एमालेले भन्यो: श्रमिक वर्ग माथी सरकारले गरेको अमानवीय व्यवहारको शिकारमा परे गणेश नेपाली",
-      "गणेश नेपाली आत्मदाह घटनाको छानबिन गर्न डीआईजीको नेतृत्वमा समिति गठन",
-      "गणेश नेपाली मृत्यु प्रकरण : महानगर घेर्न जाँदै गरेका प्रदर्शनकारीलाई प्रहरीले रोक्यो (तस्वीर)",
-      "गणेश नेपाली मृत्यु प्रकरणको जिम्मेवारी सरकारले लिनुपर्छः एमाले सांसद सुब्बा",
-      "आत्मदाह प्रयास गरेका गणेश नेपालीको मृत्यु",
-      "गणेश नेपाली आत्मदाह प्रयास प्रकरण : तीन नगर प्रहरी पक्राउ",
-      "गणेश नेपालीको मृत्यु प्रकरणको निष्पक्ष छानबिन गर्न सांसद राईको माग",
-      "गणेश नेपालीको मृत्युको जिम्मेवारी सरकारले लिनुपर्छ : सांसद महर",
-      "गणेश नेपाली मृत्यु प्रकरणः डीआईजीको नेतृत्वमा छानविन समिति गठन",
-      "गणेश नेपाली मृत्यु प्रकरणः परिवारलाई ३ दिनको तलब सहयोग गर्ने काँग्रेस सांसदको घोषणा",
+      "नगर प्रहरीको ‘ह्वील लक’पछि पठाओ चालकले राहदानी विभागअघि लगाए आगो, अवस्था गम्भीर",
+      "सर्लाहीमा आत्मदाहकाे प्रयास गरेका मण्डललाई हेलिकोप्टरमार्फत काठमाडौं ल्याइँदै",
       "राहदानी विभाग अगाडि आत्मदाहको प्रयास गरेका गणेश नेपालीको मृत्यु",
+      "सर्लाहीमा युवकद्वारा आत्मदाह प्रयास हेलिकप्टरबाट  काठमाडौं ल्याउदै",
       "आत्मदाहको प्रयास गरेका गणेश नेपालीको मृत्यु",
-      "राहदानी विभाग अगाडि आत्मदाह प्रयास, एक व्यक्ति अस्पताल भर्ना",
-      "डिआइजी थपलियाको संयोजकत्वमा ५ सदस्यीय छानबिन समिति गठन",
-      "नेपालीको निधनको घटना विडम्बनापूर्ण: एमाले",
-      "नेपालीको जलन र निधनको घटनाबारे छानबिन गर्न नेता आङ्देम्बेको माग",
-      "आत्मदाह प्रयास गरेका गणेश नेपालीको मृत्युपछि वीर अस्पताल अगाडि प्रदर्शन",
-      "गणेश नेपाली आत्मदाह प्रकरण : छानबिनका लागि डीआईजीको नेतृत्वमा समिति गठन",
-      "गणेश नेपालीको मृत्यु सरकारप्रति जनतामा बढ्दो निरासा र असुरक्षाको भयावह संकेत : खुश्वु ओली",
-      "जेटिएको जागिर नपाएपछि पठाओ सेवा गर्दै आएका थिए आत्मदाह गरेका नेपाली",
-      "गणेश नेपालीको मृत्यु घटनाको सरकारले छानविन गर्छ, अन्याय हुन दिदैन : जगदीश खरेल",
-      "गणेश नेपाली मृत्यु प्रकरण : नेकपाले माग्यो सरकारको धारणा"
+      "सर्लाहीको गोडैतामा युवकद्वारा आत्मदाहको प्रयास",
+      "आत्मदाहको प्रयास गरेका सर्लाहीका मण्डललाई हेलिकोप्टरबाट काठमाडौं ल्याइयो",
+      "सर्लाहीमा युवकले गरे आगो लगाएर आत्मदाह प्रयास",
+      "गणेश नेपालीको परिवारसँग सरकारी टोलीको वार्ता जारी",
+      "गणेश नेपालीको परिवार र सरकारबीच वार्ता जारी",
+      "बुद्धनगरमा आत्मदाह प्रयास, उद्धार गरेर वीर अस्पताल पुर्‍याइयो",
+      "सर्लाहीमा आत्मदाह प्रयास गरेका विवेकको अवस्था चिन्ताजनक, ८५ प्रतिशत जलन",
+      "आत्मदाह गरेका गणेशको शव वीरबाट त्रिवि शिक्षण अस्पताल लगियो",
+      "काठमाडौँको बुद्धनगरमा शनिबार बिहान एक पुरुषले आत्मदाह  शरीरको करिब ५५ प्रतिशत भाग जलेको",
+      "गणेश नेपालीको शव शिक्षण अस्पतालमा लगियो, आज पुनः वार्ता",
+      "आत्मदाह प्रयास गरेका विवेक मण्डलको अवस्था गम्भीर",
+      "गणेश नेपालीको शव शिक्षण अस्पतालमा, आज पुनः सरकार–परिवार वार्ता",
+      "बुद्धनगरमा एक पुरूषले लगाए आफैमाथि आगो, पुर्‍याइयो वीर अस्पताल",
+      "काठमाडौंको बुद्धनगरमा फेरि  आत्मदाहको प्रयास उद्दार पछि वीर अस्पताल लगियो",
+      "गेटा अस्पताल अब शिक्षण अस्पतालका रूपमा",
+      "बुद्धनगरमा ४५ वर्षीय व्यक्तिले गरे आत्मदाहको प्रयास",
+      "राजधानीमा फेरि अर्को आत्मदाहको प्रयास: छोरासँग विवादपछि बुद्धनगरका पुरुषले लगाए आफैँलाई आगो",
+      "सर्लाहीमा आत्मदाह प्रयास गरेका विवेकको अवस्था चिन्ताजनक, ८५ प्रतिशत जलन",
+      "काठमाडौं बुद्धनगरमा फेरि एक व्यक्तिले गरे आत्मदाहको प्रयास",
+      "गणेश नेपालीको शव सुरक्षित राख्न पठाइयो त्रिवि शिक्षण अस्पताल"
     ],
     "category": "Crime",
-    "one_liner": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=30)]",
-    "short_summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=45)]",
-    "key_points": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=45)]",
-    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=60)]",
-    "coverage_breakdown": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=60)]"
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
   },
   {
-    "cluster_id": 65,
+    "cluster_id": 235,
     "sources": [
-      "Setopati",
-      "Annapurna Post"
+      "Gorkhapatra",
+      "Setopati"
     ],
     "titles": [
-      "कार्यकर्तालाई रास्वपा नेता गणेश कार्कीको आग्रह- सरकार र पार्टी जोगाउन मान्छेको ज्यान भन्दा भारी तर्क नगरौं",
-      "वीर अस्पतालले भन्यो-५५ प्रतिशत शरीर जलेका गणेशको ज्यान जोगाउन सकिएन"
+      "वर्षामै कर्णाली राजमार्ग मर्मत",
+      "गगनेखोलामा पहिरो जाँदा कर्णाली राजमार्ग अवरूद्ध"
+    ],
+    "category": "General",
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
+  },
+  {
+    "cluster_id": 236,
+    "sources": [
+      "OSNepal",
+      "Gorkhapatra",
+      "Thahakhabar",
+      "Nagarik",
+      "Gorkhapatra"
+    ],
+    "titles": [
+      "सडक विस्तार मात्रै समाधान होइन, सार्वजनिक यातायात र पैदलमैत्री पूर्वाधार आवश्यक",
+      "यातायात क्षेत्रलाई मर्यादित बनाउनु आवश्यक छ : मुख्यमन्त्री बानियाँ",
+      "यातायात कानुनलाई लगानीकर्ता र यात्रुमैत्री बनाइनेछ : मुख्यमन्त्री बानियाँ",
+      "पूर्वाधार विस्तार, उडान कटौती",
+      "यातायातका समस्या समाधानमा सरकार प्रतिबद्ध : मुख्यमन्त्री  बानियाँ"
     ],
     "category": "Politics",
-    "one_liner": "रास्वपा नेता कार्कीले गणेश नेपालीको ज्यान जोगाउने प्रयास गर्दा वीर अस्पतालले ५५ प्रतिशत जलेको शरीरलाई बचाउन नसकेको जनायो।",
-    "short_summary": "मुगुका गणेश नेपालीले राहदानी विभागमा आत्मदाह प्रयास गरेको थियो। उनको शरीरको ५५ प्रतिशत भाग जलेर वीर अस्पतालमा उपचाररत अवस्थामा ज्यान गएको हो। रास्वपा नेता गणेश कार्कीले कार्यकर्ताहरूलाई सरकार र पार्टी जोगाउन थप तर्क गरेर ज्यान जोखिममा नलौट्न आग्रह गरेका थिए।",
-    "key_points": "Okay, here’s the extraction of three key facts from the provided articles, formatted as requested:\n\n१. रास्वपाका नेता गणेश कार्कीले कार्यकर्ताहरूलाई मान्छेको ज्यान भन्दा भारी तर्क न नगर्न आग्रह गरेका छन्।\n२. मुगुका २५ वर्षीय गणेश नेपालीको शरीरको ५५ प्रतिशत भाग जलेर वीर अस्पतालमा उपचाररत अवस्थामा बिरालो भएको छ।\n३. गणेश नेपालीलाई काठमाडौंको राहदानी विभाग परिसरमा आत्मदाहको प्रयास गर्दा ज्यान गएको हो र उनी सोरु गाउँपालिका वडा नं. १ बाट हुन्।",
-    "missing_info": "- Setopati ले कार्यकर्तालाई रास्वपा नेता गणेश कार्कीको आग्रह गरेको उल्लेख गर्यो, तर Annapurna Post र अन्य स्रोतहरूले यसको उल्लेख नगरेको छ।\n- Annapurna Post ले आत्मदाहको प्रयास गरेका व्यक्तिलाई “मुगुका २५ वर्षीय गणेश नेपाली” भनेर उल्लेख गर्यो, तर Setopati ले यसको उल्लेख नगरेको छ।\n- Annapurna Post ले शरीरको ५५ प्रतिशत भाग जलेको संख्या उल्लेख गर्यो, तर Setopati ले यसको उल्लेख नगरेको छ।",
-    "coverage_breakdown": "Okay, here’s a breakdown of the facts presented in each source, as requested:\n\n**Source: Setopati**\n- रास्वपाका नेता गणेश कार्की\n- कार्यकर्ताहरूलाई “मान्छेको ज्यान भन्दा भारी तर्क नगरौं” आग्रह\n- राष्ट्रिय स्वतन्त्र पार्टी (रास्वपा)\n\n**Source: Annapurna Post**\n- गणेश नेपाली, मुगुका २५ वर्षीय\n- ५५ प्रतिशत शरीर जलेको\n- वीर अस्पताल\n- काठमाडौं\n- राहदानी विभाग परिसर\n- शुक्रबार बिहान ११:१९ बजे निधन\n- मेकानिकल भेन्टिलेटरको सहयोग\n- सोरु गाउँपालिका वडा नं. १, मुगु (मुगुलबाट)"
+    "summary": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "bias_analysis": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]",
+    "missing_info": "[LLM Error: HTTPConnectionPool(host='localhost', port=11434): Max retries exceeded with url: /api/generate (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=11434): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))]"
   }
 ]
