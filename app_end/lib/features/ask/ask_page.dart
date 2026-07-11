@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../core/data/dummy_data.dart';
+import '../../core/services/qna_repository.dart';
+
+const String _emptyHint =
+    'समाचारबारे प्रश्न सोध्नुहोस् — म डेटाबेसमा भएका समाचारका आधारमा उत्तर दिन्छु।';
+
+const String _errorText =
+    'माफ गर्नुहोस्, अहिले जवाफ दिन सकिनँ। कृपया फेरि प्रयास गर्नुहोस्।';
 
 class AskPage extends StatefulWidget {
   const AskPage({super.key});
@@ -11,7 +17,9 @@ class AskPage extends StatefulWidget {
 
 class _AskPageState extends State<AskPage> {
   final TextEditingController _controller = TextEditingController();
+  final QnaRepository _repo = QnaRepository();
   final List<_ChatItem> _items = [];
+  bool _sending = false;
 
   @override
   void dispose() {
@@ -49,7 +57,7 @@ class _AskPageState extends State<AskPage> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          dummyAskFallback,
+                          _emptyHint,
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(color: scheme.onSurfaceVariant),
@@ -78,6 +86,7 @@ class _AskPageState extends State<AskPage> {
                     controller: _controller,
                     minLines: 1,
                     maxLines: 4,
+                    enabled: !_sending,
                     textInputAction: TextInputAction.send,
                     onSubmitted: (_) => _send(),
                     decoration: const InputDecoration(
@@ -87,11 +96,20 @@ class _AskPageState extends State<AskPage> {
                 ),
                 const SizedBox(width: 8),
                 Material(
-                  color: scheme.primary,
+                  color: _sending ? scheme.surfaceContainerHighest : scheme.primary,
                   shape: const CircleBorder(),
                   child: IconButton(
-                    onPressed: _send,
-                    icon: Icon(Icons.arrow_upward, color: scheme.onPrimary),
+                    onPressed: _sending ? null : _send,
+                    icon: _sending
+                        ? SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: scheme.onSurfaceVariant,
+                            ),
+                          )
+                        : Icon(Icons.arrow_upward, color: scheme.onPrimary),
                     tooltip: 'Send',
                   ),
                 ),
@@ -103,21 +121,36 @@ class _AskPageState extends State<AskPage> {
     );
   }
 
-  void _send() {
+  Future<void> _send() async {
     final q = _controller.text.trim();
-    if (q.isEmpty) return;
+    if (q.isEmpty || _sending) return;
 
-    final lower = q.toLowerCase();
-    final match = dummyAskResponses.entries.firstWhere(
-      (e) => lower.contains(e.key),
-      orElse: () => const MapEntry('', dummyAskFallback),
-    );
-
+    _controller.clear();
     setState(() {
       _items.add(_ChatItem(isUser: true, text: q));
-      _items.add(_ChatItem(isUser: false, text: match.value));
+      _items.add(const _ChatItem(isUser: false, text: '', isLoading: true));
+      _sending = true;
     });
-    _controller.clear();
+
+    try {
+      final result = await _repo.ask(q);
+      if (!mounted) return;
+      setState(() {
+        _items[_items.length - 1] = _ChatItem(
+          isUser: false,
+          text: result.answer.isEmpty ? _errorText : result.answer,
+          sources: result.sources,
+        );
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _items[_items.length - 1] =
+            const _ChatItem(isUser: false, text: _errorText);
+      });
+    } finally {
+      if (mounted) setState(() => _sending = false);
+    }
   }
 }
 
@@ -130,6 +163,37 @@ class _ChatBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final isUser = item.isUser;
+
+    final Widget bubbleChild = item.isLoading
+        ? SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: scheme.onSurfaceVariant,
+            ),
+          )
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                item.text,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: isUser ? scheme.onPrimary : scheme.onSurface,
+                ),
+              ),
+              if (!isUser && item.sources.isNotEmpty) ...[
+                const SizedBox(height: 6),
+                Text(
+                  'स्रोत: ${item.sources.join(', ')}',
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ],
+          );
 
     final bubble = Container(
       constraints: BoxConstraints(
@@ -145,12 +209,7 @@ class _ChatBubble extends StatelessWidget {
           bottomRight: Radius.circular(isUser ? 4 : 18),
         ),
       ),
-      child: Text(
-        item.text,
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-          color: isUser ? scheme.onPrimary : scheme.onSurface,
-        ),
-      ),
+      child: bubbleChild,
     );
 
     final avatar = Container(
@@ -184,8 +243,15 @@ class _ChatBubble extends StatelessWidget {
 }
 
 class _ChatItem {
-  _ChatItem({required this.isUser, required this.text});
+  const _ChatItem({
+    required this.isUser,
+    required this.text,
+    this.isLoading = false,
+    this.sources = const [],
+  });
 
   final bool isUser;
   final String text;
+  final bool isLoading;
+  final List<String> sources;
 }
