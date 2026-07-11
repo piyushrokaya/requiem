@@ -98,16 +98,7 @@ my_app/
 │   ├── src/           Routes, controllers, services, RAG, scheduler, DB schema
 │   ├── scripts/       One-shot pipeline/refresh runners
 │   └── data/          Python news pipeline + its output (CSV, clusters.json)
-└── docs/              Full project documentation (start at docs/README.md)
+
 ```
 
-## Documentation
 
-| Doc | Covers |
-|---|---|
-| [docs/architecture.md](docs/architecture.md) | End-to-end data flow, design rationale |
-| [docs/backend.md](docs/backend.md) | Express API, routes, services, Postgres/CSV fallback |
-| [docs/data-pipeline.md](docs/data-pipeline.md) | The Python scrape/cluster/LLM-analysis pipeline |
-| [docs/rag-qna.md](docs/rag-qna.md) | The Ask tab's retrieval-augmented Q&A system |
-| [docs/frontend.md](docs/frontend.md) | Flutter app structure, screens, state, voice mode |
-| [docs/setup.md](docs/setup.md) | Running everything locally + operational gotchas |
