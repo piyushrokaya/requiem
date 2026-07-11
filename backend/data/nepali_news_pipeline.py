@@ -100,6 +100,13 @@ def specific_tokens(text: str) -> set:
 def token_overlap(title1: str, title2: str) -> int:
     return len(specific_tokens(title1) & specific_tokens(title2))
 
+LLM_ERROR_PREFIX = "[LLM Error"
+# Shared by both "the LLM call failed after a retry" and "skipped this run to
+# stay under the per-cycle batch cap" — either way it means "not analysed
+# yet, will be retried" and must never be treated as a cached, good result.
+LLM_FALLBACK_TEXT = "विश्लेषण अहिले उपलब्ध छैन। पछिको रिफ्रेसमा उपलब्ध हुनेछ।"
+
+
 def llm(prompt: str, timeout: int = 60) -> str:
     try:
         r = requests.post(
@@ -110,6 +117,20 @@ def llm(prompt: str, timeout: int = 60) -> str:
         return r.json().get("response", "").strip()
     except Exception as e:
         return f"[LLM Error: {e}]"
+
+
+def llm_safe(prompt: str, timeout: int = 60, retries: int = 1) -> str:
+    """Like llm(), but never lets a raw connection/timeout error string get
+    persisted as if it were real content (that's how clusters.json ended up
+    showing "[LLM Error: ...]" as a summary in the app). Retries once, then
+    falls back to a user-facing Nepali message instead of the exception text.
+    """
+    result = ""
+    for _ in range(retries + 1):
+        result = llm(prompt, timeout=timeout)
+        if not result.startswith(LLM_ERROR_PREFIX):
+            return result
+    return LLM_FALLBACK_TEXT
 
 
 VALID_CATEGORIES = ["Politics", "Sports", "Business", "Tech",
@@ -250,62 +271,150 @@ def enforce_source_diversity(df: pd.DataFrame) -> pd.DataFrame:
             rows.extend(group.to_dict("records"))
     return pd.DataFrame(rows)
 
-def analyse_cluster(articles: list[dict]) -> dict:
-    base = {
+def _cluster_base(articles: list[dict]) -> dict:
+    return {
         "cluster_id": articles[0]["cluster_id"],
         "sources":    [a["source"] for a in articles],
         "titles":     [a["title"]  for a in articles],
         "category":   articles[0].get("category", "General"),
     }
 
-    if len(articles) < 2:
-        return {**base,
-                "summary":       (articles[0].get("clean_text") if isinstance(articles[0].get("clean_text"), str) else "")[:300],
-                "bias_analysis": "Single source — no comparison available.",
-                "missing_info":  "N/A"}
-
+def _cluster_prompts(articles: list[dict]) -> dict[str, str]:
     block = "\n\n".join(
         f"SOURCE: {a['source']}\nTITLE: {a['title']}\nBODY: {(a.get('clean_text') if isinstance(a.get('clean_text'), str) else '')[:600]}"
         for a in articles
     )
 
-    summary = llm(f"""You are a Nepali news analyst. These articles cover the SAME event from different sources.
+    return {
+        "summary": f"""You are a Nepali news analyst. These articles cover the SAME event from different sources.
 Write a neutral 3-5 sentence summary of what happened.
 
 {block}
 
-SUMMARY:""")
-
-    bias = llm(f"""You are a media bias analyst. Compare how each source frames this story.
+SUMMARY:""",
+        "bias": f"""You are a media bias analyst. Compare how each source frames this story.
 Focus on: tone, emphasis, whose quotes they use, what each source highlights or omits.
 Write one concise paragraph per source.
 
 {block}
 
-BIAS & FRAMING:""")
-
-    gaps = llm(f"""You are a journalism analyst. Find specific facts or perspectives that
+BIAS & FRAMING:""",
+        "gaps": f"""You are a journalism analyst. Find specific facts or perspectives that
 one source mentions but others completely miss. List each gap clearly.
 
 {block}
 
-INFORMATION GAPS:""")
+INFORMATION GAPS:""",
+    }
 
-    return {**base, "summary": summary, "bias_analysis": bias, "missing_info": gaps}
+# Total concurrent requests to Ollama across ALL clusters combined — not per
+# cluster. An earlier version ran 3 clusters at once, each firing its own 3
+# prompts concurrently (3x3=9 simultaneous requests), which oversubscribed
+# this single local model instance so badly that most requests sat queued
+# past their client-side timeout and fell back to the placeholder text
+# instead of actually failing to start. One shared, capped pool keeps every
+# request's real wait time inside its timeout budget.
+MAX_LLM_CONCURRENCY = 2
+
+# How many *new* (not-yet-analysed) clusters get real LLM analysis in a
+# single refresh cycle. Every cycle re-clusters the FULL article history, so
+# without this cap, a large backlog (e.g. after Ollama was down for a while)
+# makes one cycle take tens of minutes and starves genuinely new stories of
+# analysis time. Anything past the cap keeps its previous state and is
+# retried on a later cycle — it never gets stuck since it stays uncached.
+MAX_NEW_CLUSTERS_PER_RUN = 8
+
+def _is_analysed(cluster: dict) -> bool:
+    """True if a saved cluster has real content in all three text fields —
+    i.e. neither a raw LLM error nor the "try again later" placeholder."""
+    fields = (cluster.get("summary", ""), cluster.get("bias_analysis", ""), cluster.get("missing_info", ""))
+    return all(f and not f.startswith(LLM_ERROR_PREFIX) and f != LLM_FALLBACK_TEXT for f in fields)
+
+def _load_analysis_cache() -> dict[frozenset, dict]:
+    """Maps a cluster's article-title set -> its previous analysis, but only
+    for clusters that were actually analysed last time (see _is_analysed).
+    Same set of titles next run == same story, so it's safe to reuse without
+    re-spending LLM calls on it. This is what stops the pipeline from
+    re-analysing every cluster it has ever seen on every single refresh."""
+    if not os.path.exists(CLUSTERS_JSON):
+        return {}
+    try:
+        with open(CLUSTERS_JSON, encoding="utf-8") as f:
+            previous = json.load(f)
+    except Exception:
+        return {}
+
+    return {
+        frozenset(c["titles"]): c
+        for c in previous
+        if c.get("titles") and _is_analysed(c)
+    }
 
 def analyse_all_clusters() -> list[dict]:
     if not os.path.exists(OUTPUT_CSV):
+        print(" No CSV yet.")
         return []
 
     df = pd.read_csv(OUTPUT_CSV)
-    results = []
+    cluster_groups = [
+        (cid, group.to_dict("records")) for cid, group in df.groupby("cluster_id")
+        if group["source"].nunique() >= 2
+    ]
 
-    for cid, group in df.groupby("cluster_id"):
-        if group["source"].nunique() < 2:
-            continue
-        articles = group.to_dict("records")
-        print(f"  Cluster {cid}: {len(articles)} articles | {group['source'].nunique()} sources")
-        results.append(analyse_cluster(articles))
+    cache = _load_analysis_cache()
+
+    results = []
+    to_analyze = []
+    for cid, articles in cluster_groups:
+        base = _cluster_base(articles)
+        hit = cache.get(frozenset(base["titles"]))
+        if hit is not None:
+            results.append({
+                **base,
+                "summary": hit["summary"],
+                "bias_analysis": hit["bias_analysis"],
+                "missing_info": hit["missing_info"],
+            })
+        else:
+            to_analyze.append((cid, articles, base))
+
+    deferred = to_analyze[MAX_NEW_CLUSTERS_PER_RUN:]
+    to_analyze = to_analyze[:MAX_NEW_CLUSTERS_PER_RUN]
+
+    print(
+        f"  {len(results)} clusters reused from cache, analysing {len(to_analyze)} new "
+        f"({MAX_LLM_CONCURRENCY} concurrent LLM calls)"
+        + (f", {len(deferred)} deferred to a later refresh" if deferred else "") + "..."
+    )
+
+    if to_analyze:
+        with ThreadPoolExecutor(max_workers=MAX_LLM_CONCURRENCY) as ex:
+            jobs = {
+                (cid, name): ex.submit(llm_safe, prompt, 90)
+                for cid, articles, _base in to_analyze
+                for name, prompt in _cluster_prompts(articles).items()
+            }
+            outcomes = {key: f.result() for key, f in jobs.items()}
+
+        for cid, articles, base in to_analyze:
+            results.append({
+                **base,
+                "summary": outcomes[(cid, "summary")],
+                "bias_analysis": outcomes[(cid, "bias")],
+                "missing_info": outcomes[(cid, "gaps")],
+            })
+            print(f"     Cluster {cid} done ({len(articles)} articles)")
+
+    # Deferred clusters still show up (with a real, LLM-free summary drawn
+    # straight from the top article's text) rather than disappearing from the
+    # app until their turn comes up — only the comparison fields wait.
+    for cid, articles, base in deferred:
+        results.append({
+            **base,
+            "summary": (articles[0].get("clean_text") if isinstance(articles[0].get("clean_text"), str) else "")[:300],
+            "bias_analysis": LLM_FALLBACK_TEXT,
+            "missing_info": LLM_FALLBACK_TEXT,
+        })
 
     os.makedirs("data", exist_ok=True)
     with open(CLUSTERS_JSON, "w", encoding="utf-8") as f:
