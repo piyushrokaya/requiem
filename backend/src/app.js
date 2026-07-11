@@ -3,6 +3,7 @@ const cors = require("cors");
 
 const newsRoutes = require("./routes/news.routes");
 const compareRoutes = require("./routes/comparision.routes");
+const qnaRoutes = require("./rag/qna.routes");
 
 const app = express();
 
@@ -18,5 +19,6 @@ app.get("/", (req, res) => {
 
 app.use("/api/news", newsRoutes);
 app.use("/api/compare", compareRoutes);
+app.use("/api/qna", qnaRoutes);
 
 module.exports = app;
